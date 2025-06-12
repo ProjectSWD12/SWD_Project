@@ -31,6 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         return;
       }
 
+      // added
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
           context,

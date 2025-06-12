@@ -63,22 +63,6 @@ class _CalendarState extends State<Calendar> {
             ),
           ),
           SizedBox(height: 16),
-          Expanded(
-            child: ListView.separated(
-              itemCount: excursions.length,
-              itemBuilder: (context, index) => Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Text(excursions.elementAt(index).type),
-                    Text(excursions.elementAt(index).time),
-                    Text(excursions.elementAt(index).people.toString()),
-                  ],
-                ),
-              ),
-              separatorBuilder: (context, index) => SizedBox(height: 8),
-            ),
-          )
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../main.dart';
 import 'login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -28,6 +29,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       if (email.isEmpty || password.isEmpty) {
         _showError('Введите email и пароль');
         return;
+      }
+
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const AuthGate()),
+              (route) => false,
+        );
       }
 
       await FirebaseAuth.instance.createUserWithEmailAndPassword(

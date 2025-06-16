@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../main.dart';
@@ -13,6 +14,8 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final telegramController = TextEditingController();
 
   @override
   void dispose() {
@@ -31,12 +34,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         return;
       }
 
-      // added
       if (context.mounted) {
-        Navigator.pushAndRemoveUntil(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const AuthGate()),
-              (route) => false,
+          MaterialPageRoute(builder: (context) => const AuthGate())
         );
       }
 
@@ -55,6 +56,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       } else {
         _showError('Ошибка регистрации: ${e.message}');
       }
+    }
+  }
+
+  Future<void> writeData(String tg, String name) async {
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    try {
+      await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .set({
+          'telegram': tg,
+          'excursionsDone': 0,
+          'name': name,
+      });
+    } on FirebaseException catch (e) {
+      _showError('Произошла ошибка: ${e.message}');
     }
   }
 
@@ -110,7 +127,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Password',
+                  hintText: 'Пароль',
+                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            SizedBox(
+              height: 48,
+              child: TextField(
+                controller: nameController,
+                style: TextStyle(fontSize: 17),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  hintText: 'Имя и фамилия',
+                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            SizedBox(
+              height: 48,
+              child: TextField(
+                controller: telegramController,
+                style: TextStyle(fontSize: 17),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  hintText: 'Telegram',
                   hintStyle: TextStyle(color: Color(0xff5A5A5A)),
                   filled: true,
                   fillColor: Colors.white,
@@ -125,7 +180,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: _signUp,
+                onPressed: () {
+                  _signUp();
+                  writeData(telegramController.text, nameController.text);
+                },
                 style: FilledButton.styleFrom(
                     backgroundColor: Color(0xff005BFF),
                     shape: RoundedRectangleBorder(
@@ -140,12 +198,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             Spacer(),
             Padding(
-              padding: EdgeInsets.only(bottom: 24),
+              padding: EdgeInsets.only(bottom: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Уже есть аккаунт?'),
+                  SizedBox(width: 6),
                   TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,

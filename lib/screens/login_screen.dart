@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'registration_screen.dart';
+import 'change_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Password',
+                  hintText: 'Пароль',
                   hintStyle: TextStyle(color: Color(0xff5A5A5A)),
                   filled: true,
                   fillColor: Colors.white,
@@ -130,25 +131,56 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Spacer(),
             Padding(
-              padding: EdgeInsets.only(bottom: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              padding: EdgeInsets.only(bottom: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Нет аккаунта?'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Нет аккаунта?'),
+                      SizedBox(width: 6),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => RegistrationScreen())
+                          );
+                        },
+                        child: Text(
+                          'Регистрация',
+                          style: TextStyle(
+                            color: Color(0xff005BFF),
+                          ),
+                        )
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 3),
                   TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegistrationScreen())
+                        MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
                       );
                     },
                     child: Text(
-                      'Регистрация',
+                      'Забыли пароль?',
                       style: TextStyle(
                         color: Color(0xff005BFF),
                       ),
-                    )
-                  )
+                    ),
+                  ),
                 ],
               ),
             ),

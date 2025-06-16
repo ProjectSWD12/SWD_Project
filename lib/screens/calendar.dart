@@ -52,29 +52,38 @@ class _CalendarState extends State<Calendar> {
           SizedBox(
             height: 82,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 8,
+              ),
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: 14,
                 itemBuilder: (context, index) {
                   final date = DateTime.now().add(Duration(days: index));
                   final weekday = weekdays.elementAt(date.weekday - 1);
-                  return GestureDetector(
-                    onTap: () { _loadExcursions(date); },
-                    child: Container(
-                      height: 66,
-                      width: 42,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12)
+                  return TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Color(0xff333333),
+                      minimumSize: Size(46, 66),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(date.day.toString(), style: TextStyle(fontSize: 17)),
-                          Text(weekday, style: TextStyle(fontSize: 14)),
-                        ],
-                      ),
+                    ),
+                    onPressed: () { _loadExcursions(date); },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          date.day.toString(),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          weekday,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                   );
                 },
@@ -92,6 +101,7 @@ class _CalendarState extends State<Calendar> {
                 ExcursionModel excursionModel = excursions.elementAt(index);
                 return Container(
                   color: Colors.white,
+                  margin: EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
                       Text('${excursionModel.type} ${excursionModel.time}'),

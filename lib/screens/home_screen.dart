@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(label: 'Calendar', icon: Icon(Icons.calendar_today)),
-          BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person)),
+          BottomNavigationBarItem(label: 'Календарь', icon: Icon(Icons.calendar_today)),
+          BottomNavigationBarItem(label: 'Профиль', icon: Icon(Icons.person)),
         ],
       ),
     );

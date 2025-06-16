@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'registration_screen.dart';
-import 'change_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -52,6 +51,94 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
+    );
+  }
+
+  Future<void> _sendPasswordResetEmail(String userEmail) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+      _showError('Письмо отправлено на почту');
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'invalid-email':
+          errorMessage = 'Некорректный email адрес';
+          _showError(errorMessage);
+          break;
+        case 'user-not-found':
+          errorMessage = 'Пользователь с таким email не найден';
+          _showError(errorMessage);
+          break;
+        default:
+          errorMessage = 'Произошла ошибка: ${e.message}';
+          _showError(errorMessage);
+      }
+    }
+  }
+
+  void showForgotPasswordDialog(BuildContext context) {
+    final emailController = TextEditingController();
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) => AlertDialog(
+        backgroundColor: Color(0xffE6F2FF),
+        title: Text(
+          'Забыли пароль?',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Color(0xff333333),
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Введите email для восстановления доступа',
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xff333333),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 48,
+              child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Отмена', style: TextStyle(color: Color(0xff005BFF))),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Color(0xff005BFF),
+            ),
+            onPressed: () {
+              if (emailController.text.isNotEmpty) {
+                _sendPasswordResetEmail(emailController.text.trim());
+                Navigator.pop(context);
+              }
+            },
+            child: Text('Отправить'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -169,10 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
-                      );
+                      showForgotPasswordDialog(context);
                     },
                     child: Text(
                       'Забыли пароль?',

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../main.dart';
+import 'home_screen.dart';
 import 'login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -30,14 +30,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final password = passwordController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
-        _showError('Введите email и пароль');
+        showTopSnackBar(context, 'Введите email и пароль');
         return;
       }
 
       if (context.mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const AuthGate())
+          MaterialPageRoute(builder: (context) => const HomeScreen())
         );
       }
 
@@ -48,13 +48,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        _showError('Этот email уже используется');
+        showTopSnackBar(context, 'Этот email уже используется');
       } else if (e.code == 'weak-password') {
-        _showError('Пароль слишком простой');
+        showTopSnackBar(context, 'Пароль слишком простой');
       } else if (e.code == 'invalid-email') {
-        _showError('Неверный формат email');
+        showTopSnackBar(context, 'Неверный формат email');
       } else {
-        _showError('Ошибка регистрации: ${e.message}');
+        showTopSnackBar(context, 'Ошибка регистрации: ${e.message}');
       }
     }
   }
@@ -71,14 +71,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'name': name,
       });
     } on FirebaseException catch (e) {
-      _showError('Произошла ошибка: ${e.message}');
+      showTopSnackBar(context, 'Произошла ошибка: ${e.message}');
     }
   }
 
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+  void showTopSnackBar(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).padding.top + 16,
+        left: 20,
+        right: 20,
+        child: Material(
+          elevation: 2,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info, color: Color(0xff005BFF)),
+                SizedBox(width: 10),
+                Expanded(
+                    child: Text(
+                        message,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: Color(0xff333333)
+                        )
+                    )
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+
+    overlay.insert(overlayEntry);
+
+    Future.delayed(Duration(seconds: 3), () {
+      if (overlayEntry.mounted) overlayEntry.remove();
+    });
   }
 
   @override
@@ -104,6 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48,
               child: TextField(
                 controller: emailController,
+                cursorColor: Color(0xff005BFF),
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -123,6 +162,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48,
               child: TextField(
                 controller: passwordController,
+                cursorColor: Color(0xff005BFF),
                 obscureText: true,
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
@@ -143,6 +183,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48,
               child: TextField(
                 controller: nameController,
+                cursorColor: Color(0xff005BFF),
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -162,6 +203,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48,
               child: TextField(
                 controller: telegramController,
+                cursorColor: Color(0xff005BFF),
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -178,6 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 8),
             SizedBox(
+              height: 48,
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
@@ -232,5 +275,3 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 }
-
-

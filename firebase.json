@@ -1,1 +1,37 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"tourapp-66e02","appId":"1:551338757670:android:6dc287422c2d064a3ee0e7","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tourapp-66e02","configurations":{"android":"1:551338757670:android:6dc287422c2d064a3ee0e7","ios":"1:551338757670:ios:a50b865e8754b90d3ee0e7","web":"1:551338757670:web:38794bc88ad9bdc03ee0e7"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tourapp-66e02",
+          "appId": "1:551338757670:android:6dc287422c2d064a3ee0e7",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tourapp-66e02",
+          "configurations": {
+            "android": "1:551338757670:android:6dc287422c2d064a3ee0e7",
+            "ios": "1:551338757670:ios:a50b865e8754b90d3ee0e7",
+            "web": "1:551338757670:web:38794bc88ad9bdc03ee0e7"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final password = passwordController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
-        _showError('Введите email и пароль');
+        showTopSnackBar(context, 'Введите email и пароль');
         return;
       }
 
@@ -37,41 +37,79 @@ class _LoginScreenState extends State<LoginScreen> {
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        _showError('Пользователь не найден');
+        showTopSnackBar(context, 'Пользователь не найден');
       } else if (e.code == 'wrong-password') {
-        _showError('Неверный пароль');
+        showTopSnackBar(context, 'Неверный пароль');
       } else {
-        _showError('Ошибка входа: ${e.message}');
+        showTopSnackBar(context, 'Ошибка входа: ${e.message}');
       }
     } catch (e) {
-      _showError('Неизвестная ошибка: $e');
+      showTopSnackBar(context, 'Неизвестная ошибка: $e');
     }
   }
 
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+  void showTopSnackBar(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).padding.top + 16,
+        left: 20,
+        right: 20,
+        child: Material(
+          elevation: 2,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info, color: Color(0xff005BFF)),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    message,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      color: Color(0xff333333)
+                    )
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+
+    overlay.insert(overlayEntry);
+
+    Future.delayed(Duration(seconds: 3), () {
+      if (overlayEntry.mounted) overlayEntry.remove();
+    });
   }
 
   Future<void> _sendPasswordResetEmail(String userEmail) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
-      _showError('Письмо отправлено на почту');
+      showTopSnackBar(context, 'Письмо отправлено на почту');
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
           errorMessage = 'Некорректный email адрес';
-          _showError(errorMessage);
+          showTopSnackBar(context, errorMessage);
           break;
         case 'user-not-found':
           errorMessage = 'Пользователь с таким email не найден';
-          _showError(errorMessage);
+          showTopSnackBar(context, errorMessage);
           break;
         default:
           errorMessage = 'Произошла ошибка: ${e.message}';
-          _showError(errorMessage);
+          showTopSnackBar(context, errorMessage);
       }
     }
   }
@@ -106,8 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48,
               child: TextField(
                 controller: emailController,
+                cursorColor: Color(0xff005BFF),
                 decoration: InputDecoration(
                   hintText: 'Email',
+                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
                   fillColor: Colors.white,
                   filled: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -123,7 +163,10 @@ class _LoginScreenState extends State<LoginScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Отмена', style: TextStyle(color: Color(0xff005BFF))),
+            child: Text(
+              'Отмена',
+              style: TextStyle(color: Color(0xff005BFF), fontWeight: FontWeight.w500)
+            ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -135,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pop(context);
               }
             },
-            child: Text('Отправить'),
+            child: Text('Отправить', style: TextStyle(fontWeight: FontWeight.w500)),
           ),
         ],
       ),
@@ -165,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48,
               child: TextField(
                 controller: emailController,
+                cursorColor: Color(0xff005BFF),
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -184,6 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48,
               child: TextField(
                 controller: passwordController,
+                cursorColor: Color(0xff005BFF),
                 obscureText: true,
                 style: TextStyle(fontSize: 17),
                 decoration: InputDecoration(
@@ -201,6 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 8),
             SizedBox(
+              height: 48,
               width: double.infinity,
               child: FilledButton(
                 onPressed: _signIn,

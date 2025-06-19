@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_screen.dart';
+import 'package:tour_guide_manager/main.dart';
 import 'login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -28,23 +28,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     try {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
+      final tg = telegramController.text.trim();
+      final name = nameController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
         showTopSnackBar(context, 'Введите email и пароль');
         return;
       }
 
+      final userCred = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCred.user!.uid)
+          .set({
+        'telegram': tg,
+        'excursionsDone': 0,
+        'name': name,
+      });
+
       if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen())
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const AuthGate()),
+                (route) => route.isFirst
         );
       }
-
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -56,20 +66,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       } else {
         showTopSnackBar(context, 'Ошибка регистрации: ${e.message}');
       }
-    }
-  }
-
-  Future<void> writeData(String tg, String name) async {
-    final String? uid = FirebaseAuth.instance.currentUser?.uid;
-    try {
-      await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .set({
-          'telegram': tg,
-          'excursionsDone': 0,
-          'name': name,
-      });
     } on FirebaseException catch (e) {
       showTopSnackBar(context, 'Произошла ошибка: ${e.message}');
     }
@@ -220,13 +216,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 8),
             SizedBox(
-              height: 48,
               width: double.infinity,
               child: FilledButton(
-                onPressed: () {
-                  _signUp();
-                  writeData(telegramController.text, nameController.text);
-                },
+                onPressed: _signUp,
                 style: FilledButton.styleFrom(
                     backgroundColor: Color(0xff005BFF),
                     shape: RoundedRectangleBorder(

@@ -37,7 +37,11 @@ class AuthGate extends ConsumerWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(color: Color(0xff005BFF))
+            )
+          );
         }
         if (snapshot.hasData) {
           return const HomeScreen();

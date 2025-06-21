@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^5.6.8
   flutter_riverpod: ^2.6.1
   intl: ^0.20.2
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -73,8 +74,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-#  assets:
-#    - assets/splashscreen.jpg
+  assets:
+    - assets/no_data.svg
+    - assets/calendar.svg
+    - assets/profile.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

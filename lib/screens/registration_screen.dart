@@ -216,6 +216,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 8),
             SizedBox(
+              height: 40,
               width: double.infinity,
               child: FilledButton(
                 onPressed: _signUp,

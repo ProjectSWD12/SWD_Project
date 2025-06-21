@@ -10,26 +10,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> screens = [Calendar(), Profile()];
+  final List<Widget> _screens = [
+    const Calendar(),
+    const Profile(),
+  ];
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens.elementAt(_currentIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xffE6F2FF),
-        selectedItemColor: Color(0xff005BFF),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(label: 'Календарь', icon: Icon(Icons.calendar_today)),
-          BottomNavigationBarItem(label: 'Профиль', icon: Icon(Icons.person)),
-        ],
+      backgroundColor: Color(0xffE6F2FF),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(24), topLeft: Radius.circular(24),
+        ),
+        child: BottomNavigationBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          selectedItemColor: Color(0xff005BFF),
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              label: 'Календарь',
+              icon: Icon(Icons.calendar_today)
+            ),
+            BottomNavigationBarItem(
+              label: 'Профиль',
+              icon: Icon(Icons.person)
+            ),
+          ],
+        ),
       ),
     );
   }

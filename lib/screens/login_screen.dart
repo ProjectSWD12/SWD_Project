@@ -246,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 8),
             SizedBox(
-              height: 48,
+              height: 40,
               width: double.infinity,
               child: FilledButton(
                 onPressed: _signIn,

@@ -30,11 +30,23 @@ export interface Excursion {
   time: string;
   type: string;
 }
+export interface Customer{
+    id:string;
+    name: string;
+    telegram: string;
+    banList: Array<User>;
+}
 
 export interface CreateUserData {
   name: string;
   telegram: string;
   excursionsDone?: number;
+}
+
+export interface CreateCustomerData{
+  name: string;
+  telegram: string;
+  banList: Array<User>;
 }
 
 export interface CreateExcursionData {
@@ -48,6 +60,22 @@ export interface CreateExcursionData {
   time: string;
   type: string;
 }
+
+//Customers
+export const fetchCustomers = async(): Promise<Customer[]> =>{
+  const response = await api.get('/customers');
+  return response.data;
+};
+
+export const createCustomer = async (customerData: CreateCustomerData): Promise<Customer> => {
+  const response = await api.post('/customers', customerData);
+  return response.data;
+};
+
+export const fetchCustomer = async(id: string): Promise<Customer> =>{
+  const response = await api.get(`/customers/${id}`);
+  return response.data;
+};
 
 // Users
 export const fetchUsers = async (): Promise<User[]> => {

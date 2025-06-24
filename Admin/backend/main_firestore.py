@@ -46,6 +46,7 @@ app.add_middleware(
 
 excursions_ref = db.collection("excursions")
 users_ref = db.collection("users")
+customers_ref = db.collection("customers")
 
 
 class Excursion(BaseModel):
@@ -64,6 +65,14 @@ class User(BaseModel):
     name: str
     telegram: str
     excursionsDone: int
+
+class Customer(BaseModel):
+    name: str
+    telegram: str
+    banList: list
+
+class CustomerOut(Customer):
+    id:str
 
 
 class ExcursionOut(Excursion):
@@ -154,6 +163,46 @@ def delete_excursion(excursion_id: str):
         raise HTTPException(status_code=404, detail="Excursion not found")
     doc_ref.delete()
     return {"message": "Excursion deleted"}
+
+@app.get("/customers", response_model=List[CustomerOut])
+def list_customers():
+    docs = customers_ref.stream()
+    return [CustomerOut(id=doc.id, **doc.to_dict()) for doc in docs]
+
+
+@app.post("/customers", response_model=CustomerOut)
+def create_customer(customer: Customer):
+    data = customer.dict()
+    doc_ref = customers_ref.document()
+    doc_ref.set(data)
+    return CustomerOut(id=doc_ref.id, **data)
+
+
+@app.get("/customers/{customer_id}", response_model=CustomerOut)
+def get_customer(customer_id: str):
+    doc = customers_ref.document(customer_id).get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return CustomerOut(id=doc.id, **doc.to_dict())
+
+
+@app.put("/customers/{customer_id}", response_model=CustomerOut)
+def update_customer(customer_id: str, customer: Customer):
+    doc_ref = customers_ref.document(customer_id)
+    if not doc_ref.get().exists:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    doc_ref.update(customer.dict())
+    data = doc_ref.get().to_dict()
+    return CustomerOut(id=doc_ref.id, **data)
+
+
+@app.delete("/customers/{customer_id}")
+def delete_customer(customer_id: str):
+    doc_ref = customers_ref.document(customer_id)
+    if not doc_ref.get().exists:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    doc_ref.delete()
+    return {"message": "Customer deleted"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

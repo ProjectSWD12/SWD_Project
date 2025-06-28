@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="gcm_defaultSenderId" translatable="false">551338757670</string>
-    <string name="google_api_key" translatable="false">AIzaSyClK8UnzBHBISfOu0IfBL0MD2hOsOCNGQQ</string>
-    <string name="google_app_id" translatable="false">1:551338757670:android:6dc287422c2d064a3ee0e7</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyClK8UnzBHBISfOu0IfBL0MD2hOsOCNGQQ</string>
-    <string name="google_storage_bucket" translatable="false">tourapp-66e02.firebasestorage.app</string>
-    <string name="project_id" translatable="false">tourapp-66e02</string>
-</resources>

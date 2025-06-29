@@ -34,8 +34,13 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
-      - name: Run unit tests
-        run: flutter test
+      - name: Run unit tests with coverage
+        run: flutter test --coverage
+
+      - name: Show test coverage summary
+        run: |
+          sudo apt-get install lcov
+          lcov --summary coverage/lcov.info
 
       - name: Run integration tests (optional)
         run: |

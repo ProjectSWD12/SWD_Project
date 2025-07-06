@@ -10,7 +10,7 @@
 
 
 - **Demo URL:** <https://drive.google.com/file/d/1DVCs-t82TkSLsX1VMkCp7MJSUV_Ry7Mq/view?usp=sharing>  <!-- TODO: replace -->
-- **Test credentials no need - just log in.**
+- **Test credentials no need - just register.**
 
 ---
 

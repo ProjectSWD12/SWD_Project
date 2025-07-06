@@ -44,7 +44,7 @@
 
 ### Kanban board
 
-- **Link:** <https://gitlab.com/example/project/-/boards>
+- **Link:** <https://github.com/users/ProjectSWD12/projects/1>
 - **Entry criteria:**
   | Column | Entry criteria |
   |--------|----------------|
@@ -56,44 +56,20 @@
 
 ### Git workflow
 
-```mermaid
-gitGraph
-   commit id:"main"
-   branch feature/123-awesome
-   checkout feature/123-awesome
-   commit id:"feat"
-   checkout main
-   merge feature/123-awesome
-```
-
-- **Base flow:** GitHub Flow  <!-- or Gitflow -->
-- **Branch naming:** `feature/<issue-id>-<slug>` | `bugfix/<issue-id>-<slug>`
-- **Commit message style:** Conventional Commits, e.g. `feat(auth): add JWT refresh`.
-- **Pull request template:** `.github/PULL_REQUEST_TEMPLATE.md` (link).
-
-### Secrets management
-
-<Describe where you store secrets (Vault, GitLab CI Variables, Ansible Vault, etc.) and how they reach the app.>
+- **Base flow:** Gitflow
+- **Pull request template:** `.github/workflows/flutter_ci.yml`.
 
 ---
 
 ## Quality assurance
 
-### Quality attribute scenarios
-
-Document: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-assurance/quality-attribute-scenarios.md)
-
 ### Automated tests
 
 | Type | Framework | Path |
 |------|-----------|------|
-| Unit | pytest | `tests/unit/` |
-| Integration | pytest + Docker | `tests/integration/` |
-| Static analysis | flake8, mypy, bandit | `.github/workflows/ci.yml` |
-
-### User acceptance tests
-
-Document: [docs/quality-assurance/user-acceptance-tests.md](docs/quality-assurance/user-acceptance-tests.md)
+| Unit | pytest | `tour_guide_manager/test/` |
+| Integration | pytest + Docker | `tour_guide_manager/integration_test/` |
+| Static analysis | flake8, mypy, bandit | `.github/workflows/flutter_ci.yml` |
 
 ---
 
@@ -102,15 +78,8 @@ Document: [docs/quality-assurance/user-acceptance-tests.md](docs/quality-assuran
 ### Continuous Integration
 
 - **Workflow files:**
-  - `.github/workflows/ci.yml` — linting, unit + integration tests, coverage.
-  - `.github/workflows/release.yml` — tag, artifact build.
-- **CI Dashboard:** <https://github.com/example/project/actions>
-- **Static analysers:** flake8, mypy, bandit — catch defects early.
-
-### Continuous Deployment (optional)
-
-- **File:** `.github/workflows/cd.yml` — deploys to staging and production.
-- **Logs:** <https://github.com/example/project/actions/workflows/cd.yml>
+  - `.github/workflows/flutter_ci.yml` — linting, unit + integration tests, coverage.
+- **Static analysers:** flutter analyze, dart analyze, flutter_lints, very_good_analysis.
 
 ---
 

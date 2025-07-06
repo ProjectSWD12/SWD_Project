@@ -10,9 +10,7 @@
 
 
 - **Demo URL:** <https://example.com>  <!-- TODO: replace -->
-- **Test credentials:**
-  - login: `achegaev06@gmail.com`
-  - password: `abc22wqq`
+- **Test credentials no need - just log in.**
 
 ---
 

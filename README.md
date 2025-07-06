@@ -69,7 +69,7 @@
 |------|-----------|------|
 | Unit | pytest | `tour_guide_manager/test/` |
 | Integration | pytest + Docker | `tour_guide_manager/integration_test/` |
-| Static analysis | flake8, mypy, bandit | `.github/workflows/flutter_ci.yml` |
+| Static analysis | flutter analyze, dart analyze, flutter_lints, very_good_analysis | `.github/workflows/flutter_ci.yml` |
 
 ---
 

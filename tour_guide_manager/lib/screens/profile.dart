@@ -62,7 +62,7 @@ class Profile extends StatelessWidget {
                   const SizedBox(height: 20),
                   const Text(
                     'Пользователь',
-                    style: const TextStyle(fontSize: 24),
+                    style: TextStyle(fontSize: 24),
                   ),
                   const SizedBox(height: 10),
                   Text(

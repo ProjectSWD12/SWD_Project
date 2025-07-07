@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tour_guide_manager/colors.dart';
 import 'package:tour_guide_manager/main.dart';
 import 'login_screen.dart';
+import 'package:tour_guide_manager/widgets/top_snack_bar.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -16,15 +18,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final telegramController = TextEditingController();
+  bool isLoading = false;
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
+    telegramController.dispose();
     super.dispose();
   }
 
   Future<void> _signUp() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
@@ -32,7 +40,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final name = nameController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
+        setState(() {
+          isLoading = false;
+        });
         showTopSnackBar(context, 'Введите email и пароль');
+        return;
+      }
+
+      if (name.isEmpty) {
+        setState(() {
+          isLoading = false;
+        });
+        showTopSnackBar(context, 'Введите имя');
+        return;
+      }
+
+      if (tg.isEmpty) {
+        setState(() {
+          isLoading = false;
+        });
+        showTopSnackBar(context, 'Введите telegram');
+        return;
+      }
+
+      if (!tg.contains('@')) {
+        setState(() {
+          isLoading = false;
+        });
+        showTopSnackBar(context, 'Telegram не формата @username');
         return;
       }
 
@@ -48,15 +83,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'name': name,
       });
 
-      if (context.mounted) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const AuthGate()),
-                (route) => route.isFirst
+      if (mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/auth',
+          (route) => false,
         );
       }
 
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       if (e.code == 'email-already-in-use') {
         showTopSnackBar(context, 'Этот email уже используется');
       } else if (e.code == 'weak-password') {
@@ -67,83 +103,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         showTopSnackBar(context, 'Ошибка регистрации: ${e.message}');
       }
     } on FirebaseException catch (e) {
+      if (!mounted) return;
       showTopSnackBar(context, 'Произошла ошибка: ${e.message}');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
-  }
-
-  void showTopSnackBar(BuildContext context, String message) {
-    final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 16,
-        left: 20,
-        right: 20,
-        child: Material(
-          elevation: 2,
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info, color: Color(0xff005BFF)),
-                SizedBox(width: 10),
-                Expanded(
-                    child: Text(
-                        message,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17,
-                            color: Color(0xff333333)
-                        )
-                    )
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    Future.delayed(Duration(seconds: 3), () {
-      if (overlayEntry.mounted) overlayEntry.remove();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE6F2FF),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+      backgroundColor: AppColors.background,
+      body: isLoading ?
+      const Center(
+        child: CircularProgressIndicator(color: AppColors.darkBlue),
+      ) :
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Text(
+            const Spacer(),
+            const Text(
               'Создайте аккаунт',
               style: TextStyle(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 fontSize: 22,
-                color: Color(0xff333333),
+                color: AppColors.darkGrey,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: emailController,
-                cursorColor: Color(0xff005BFF),
-                style: TextStyle(fontSize: 17),
+                cursorColor: AppColors.darkBlue,
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   hintText: 'Email',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -153,18 +154,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: passwordController,
-                cursorColor: Color(0xff005BFF),
+                cursorColor: AppColors.darkBlue,
                 obscureText: true,
-                style: TextStyle(fontSize: 17),
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   hintText: 'Пароль',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -174,17 +175,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: nameController,
-                cursorColor: Color(0xff005BFF),
-                style: TextStyle(fontSize: 17),
+                cursorColor: AppColors.darkBlue,
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   hintText: 'Имя и фамилия',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -194,17 +195,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: telegramController,
-                cursorColor: Color(0xff005BFF),
-                style: TextStyle(fontSize: 17),
+                cursorColor: AppColors.darkBlue,
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   hintText: 'Telegram',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -214,32 +215,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 40,
               width: double.infinity,
               child: FilledButton(
                 onPressed: _signUp,
                 style: FilledButton.styleFrom(
-                    backgroundColor: Color(0xff005BFF),
+                    backgroundColor: AppColors.darkBlue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)
                     )
                 ),
-                child: Text(
+                child: const Text(
                   'Регистрация',
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Уже есть аккаунт?'),
-                  SizedBox(width: 6),
+                  const Text('Уже есть аккаунт?'),
+                  const SizedBox(width: 6),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -247,15 +248,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushReplacementNamed(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen())
+                        '/login'
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Вход',
                       style: TextStyle(
-                        color: Color(0xff005BFF),
+                        color: AppColors.darkBlue,
                       ),
                     )
                   )

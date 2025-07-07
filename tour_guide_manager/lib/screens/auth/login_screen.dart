@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tour_guide_manager/colors.dart';
 import 'registration_screen.dart';
+import 'package:tour_guide_manager/widgets/top_snack_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -21,12 +24,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _signIn() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
         showTopSnackBar(context, 'Введите email и пароль');
+        setState(() {
+          isLoading = false;
+        });
         return;
       }
 
@@ -36,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       if (e.code == 'user-not-found') {
         showTopSnackBar(context, 'Пользователь не найден');
       } else if (e.code == 'wrong-password') {
@@ -44,57 +54,19 @@ class _LoginScreenState extends State<LoginScreen> {
         showTopSnackBar(context, 'Ошибка входа: ${e.message}');
       }
     } catch (e) {
+      if (!mounted) return;
       showTopSnackBar(context, 'Неизвестная ошибка: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
-  }
-
-  void showTopSnackBar(BuildContext context, String message) {
-    final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 16,
-        left: 20,
-        right: 20,
-        child: Material(
-          elevation: 2,
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info, color: Color(0xff005BFF)),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    message,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                      color: Color(0xff333333)
-                    )
-                  )
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    Future.delayed(Duration(seconds: 3), () {
-      if (overlayEntry.mounted) overlayEntry.remove();
-    });
   }
 
   Future<void> _sendPasswordResetEmail(String userEmail) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+      if (!mounted) return;
       showTopSnackBar(context, 'Письмо отправлено на почту');
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -121,36 +93,38 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       barrierColor: Colors.black54,
       builder: (context) => AlertDialog(
-        backgroundColor: Color(0xffE6F2FF),
-        title: Text(
+        backgroundColor: AppColors.background,
+        title: const Text(
           'Забыли пароль?',
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Color(0xff333333),
+            color: AppColors.darkGrey,
           ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Введите email для восстановления доступа',
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xff333333),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: emailController,
-                cursorColor: Color(0xff005BFF),
+                cursorColor: AppColors.darkBlue,
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   fillColor: Colors.white,
                   filled: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: 12
+                  ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(12),
@@ -163,14 +137,17 @@ class _LoginScreenState extends State<LoginScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
+            child: const Text(
               'Отмена',
-              style: TextStyle(color: Color(0xff005BFF), fontWeight: FontWeight.w500)
+              style: TextStyle(
+                color: AppColors.darkBlue,
+                fontWeight: FontWeight.w500
+              )
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: Color(0xff005BFF),
+              backgroundColor: AppColors.darkBlue,
             ),
             onPressed: () {
               if (emailController.text.isNotEmpty) {
@@ -178,7 +155,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pop(context);
               }
             },
-            child: Text('Отправить', style: TextStyle(fontWeight: FontWeight.w500)),
+            child: const Text(
+              'Отправить',
+              style: TextStyle(fontWeight: FontWeight.w500)
+            ),
           ),
         ],
       ),
@@ -188,32 +168,39 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE6F2FF),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+      backgroundColor: AppColors.background,
+      body: isLoading ?
+      const Center(
+        child: CircularProgressIndicator(color: AppColors.darkBlue)
+      ) :
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Text(
+            const Spacer(),
+            const Text(
               'Войдите в аккаунт',
               style: TextStyle(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 fontSize: 22,
-                color: Color(0xff333333),
+                color: AppColors.darkGrey,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             SizedBox(
               height: 48,
               child: TextField(
+                autofocus: true,
                 controller: emailController,
-                cursorColor: Color(0xff005BFF),
-                style: TextStyle(fontSize: 17),
+                cursorColor: AppColors.darkBlue,
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: 12
+                  ),
                   hintText: 'Email',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -223,18 +210,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 48,
               child: TextField(
                 controller: passwordController,
-                cursorColor: Color(0xff005BFF),
+                cursorColor: AppColors.darkBlue,
                 obscureText: true,
-                style: TextStyle(fontSize: 17),
+                style: const TextStyle(fontSize: 17),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: 12
+                  ),
                   hintText: 'Пароль',
-                  hintStyle: TextStyle(color: Color(0xff5A5A5A)),
+                  hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -244,35 +233,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 40,
               width: double.infinity,
               child: FilledButton(
                 onPressed: _signIn,
                 style: FilledButton.styleFrom(
-                    backgroundColor: Color(0xff005BFF),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    )
+                  backgroundColor: AppColors.darkBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
-                child: Text(
+                child: const Text(
                   'Войти',
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 40),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Нет аккаунта?'),
-                      SizedBox(width: 6),
+                      const Text(
+                        'Нет аккаунта?',
+                        style: TextStyle(color: AppColors.darkGrey),
+                      ),
+                      const SizedBox(width: 6),
                       TextButton(
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -280,21 +272,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          Navigator.pushReplacement(
+                          Navigator.pushReplacementNamed(
                             context,
-                            MaterialPageRoute(builder: (context) => RegistrationScreen())
+                            '/register'
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Регистрация',
                           style: TextStyle(
-                            color: Color(0xff005BFF),
+                            color: AppColors.darkBlue,
                           ),
                         )
                       )
                     ],
                   ),
-                  SizedBox(height: 3),
+                  const SizedBox(height: 3),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -304,10 +296,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       showForgotPasswordDialog(context);
                     },
-                    child: Text(
+                    child: const Text(
                       'Забыли пароль?',
                       style: TextStyle(
-                        color: Color(0xff005BFF),
+                        color: AppColors.darkBlue,
                       ),
                     ),
                   ),

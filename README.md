@@ -1,10 +1,12 @@
-# SWD Project 🚀
+# TourGuide Manager 🚀
 
-A software development project for [Your Customer Name or Organization].  
+A software development project for Innopolis University.  
 This repository contains the source code and documentation for our MVP releases.
 
 ## 📍 Live Demo  
-[👉 Deployed Version](https://your-deployment-link.com)  
+[👉 Deployed Version]
+- (https://tourapp-66e02.web.app/)
+- (https://tourappmanager.ru/) 
 [🎥 Watch Demo Video (2 mins)](https://your-demo-video-link.com)
 
 ---

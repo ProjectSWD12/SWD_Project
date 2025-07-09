@@ -7,12 +7,8 @@ This repository contains the source code and documentation for our MVP releases.
 
 ## 📍 Live Demo  
 [👉 Deployed Version]
-- (https://tourapp-66e02.web.app/)
-- (https://tourappmanager.ru/)
-
-[![Live Demo (For Guides)](https://img.shields.io/badge/Live-Demo-green?logo=vercel)](https://tourapp-66e02.web.app/) 
-
-[![Live Demo (For Admins)](https://img.shields.io/badge/Live-Demo-green?logo=square)](https://tourappmanager.ru/) 
+- [![For Guides](https://img.shields.io/badge/Live-Demo-green?logo=vercel)](https://tourapp-66e02.web.app/) 
+- [![For Admins](https://img.shields.io/badge/Live-Demo-green?logo=square)](https://tourappmanager.ru/) 
 
 [![Watch Demo Video](https://img.shields.io/badge/Watch-2 min demo-ff69b4?logo=youtube)](https://youtube.demo.link)
 

@@ -26,7 +26,7 @@ This repository contains the source code and documentation for our MVP releases.
 
 ## 🧠 About the Project
 
-This project aims to centralize and streamline tour-guide management by providing a single, always-up-to-date hub for routes, payment status, statistics, participant lists, and direct manager communication—eliminating the need for scattered Telegram notifications.  
+This project aims to centralize and streamline tour-guide management by providing a single, always-up-to-date hub for routes, payment status, statistics, participant lists, and direct manager communication-eliminating the need for scattered Telegram notifications.  
 Our goals are:
 - ✅ Deliver a user-friendly MVP
 - ✅ Gather feedback via customer testing

@@ -26,7 +26,7 @@ This repository contains the source code and documentation for our MVP releases.
 
 ## 🧠 About the Project
 
-This project aims to [brief description of the problem you're solving].  
+This project aims to centralize and streamline tour-guide management by providing a single, always-up-to-date hub for routes, payment status, statistics, participant lists, and direct manager communication—eliminating the need for scattered Telegram notifications.  
 Our goals are:
 - ✅ Deliver a user-friendly MVP
 - ✅ Gather feedback via customer testing
@@ -39,8 +39,17 @@ It is built using technologies such as **Flutter**, **Firebase**, and **GitHub A
 ## 👥 Project Context
 
 Stakeholders:
-- Customer: _[insert name]_
-- Developers: _Team SWD12_
+- Customer: _Karina Shavalieva (@K_Arbyzova)_, _Hannanov Rishat (@RishatHannanov)_
+- Developers:
+
+| Participant      | Role            | GitHub Link                       |
+|---------------|-----------------|----------------------------------------|
+| Aleksey Chegaev   | Team Lead    | [github.com/ivanivanov](https://github.com/wyroxx) |
+| Aleksandr Medvedev | App for Guides Manager      | [github.com/mariapetrova](https://github.com/BearAx)) |
+| Nikita Shankin    | App for Guides Manager     | [github.com/alexsmith](https://github.com/Mysteri0K1ng) |
+| Georgii Beliaev | App for Admins Manager     | [github.com/mariapetrova](https://github.com/JoraXD) |
+| Alexander Simonov    | App for Admins Manager    | [github.com/alexsmith](https://github.com/AlexbittIT) |
+
 
 External Systems:
 - Firebase Authentication

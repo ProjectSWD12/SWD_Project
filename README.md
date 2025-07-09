@@ -43,7 +43,8 @@ It is built using technologies such as **Flutter**, **Firebase**, and **GitHub A
 
 Stakeholders:
 - Customers:
-  -- _Karina Shavalieva (@K_Arbyzova)_, _Hannanov Rishat (@RishatHannanov)_
+- _Karina Shavalieva (@K_Arbyzova)_,
+- _Hannanov Rishat (@RishatHannanov)_
 - Developers:
 
 | Participant      | Role            | GitHub Link                       |

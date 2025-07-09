@@ -66,18 +66,18 @@ External Systems:
 
 ## ✅ Feature Roadmap
 
-| Feature                                | Status       |
+| Feature (MVP tag)                               | Status       |
 |----------------------------------------|--------------|
-| User Login / Auth                      | ✅ Implemented |
-| Excursion Listing                      | ✅ Implemented |
-| Profile Management                     | ✅ Implemented |
-| Guide's Calendar Integration           | ✅ Implemented |
-| Admin's Calendar Integration           | ✅ Implemented |
-| Blacklist of Users                     | ✅ Implemented |
-| Blacklist of Guides                    | ✅ Implemented |
-| Application Window                     | ✅ Implemented |
+| User Login / Auth (V1.0)                     | ✅ Implemented |
+| Excursion Listing (V1.0)                     | ✅ Implemented |
+| Profile Management (V1.0)                    | ✅ Implemented |
+| Guide's Calendar Integration (V1.0)          | ✅ Implemented |
+| Admin's Calendar Integration (V2.0)          | ✅ Implemented |
+| Blacklist of Users (V2.0)                    | ✅ Implemented |
+| Blacklist of Guides (V2.0)                   | ✅ Implemented |
+| Application Window (V2.0)                   | ✅ Implemented |
 | Customer Feedback & Testing            | ⏳ In Progress |
-| Notifications About Excursions         | ⬜ Planned |
+| Real Time Notifications (V3.0)        | ⬜ Planned |
 
 ---
 
@@ -94,7 +94,6 @@ Even users who say _“I just copy and paste without reading”_ will find the i
 ---
 
 ## Installation & Deployment
-> Reproducible by **любого** члена команды.
 
 ### Prerequisites
 | Tool | Version |
@@ -111,5 +110,5 @@ git clone https://github.com/ProjectSWD12/SWD_Project.git
 cd SWD_Project
 flutter pub get                 # install dependencies
 cp .env.example .env            # add your secrets
-firebase emulators:start &       # (optional) run local Firebase
+firebase emulators:start &      # (optional) run local Firebase
 flutter run                     # launch on device or web

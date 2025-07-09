@@ -60,6 +60,8 @@ External Systems:
 - Telegram Bot API (if used)
 
 📌 Context Diagram:  
+> Stakeholders and external systems at a glance.
+> 
 ![Context Diagram](docs/architecture/context-diagram.png)
 
 ---
@@ -68,16 +70,16 @@ External Systems:
 
 | Feature (MVP tag)                               | Status       |
 |----------------------------------------|--------------|
-| User Login / Auth (V1.0)                     | ✅ Implemented |
-| Excursion Listing (V1.0)                     | ✅ Implemented |
-| Profile Management (V1.0)                    | ✅ Implemented |
-| Guide's Calendar Integration (V1.0)          | ✅ Implemented |
-| Admin's Calendar Integration (V2.0)          | ✅ Implemented |
-| Blacklist of Users (V2.0)                    | ✅ Implemented |
-| Blacklist of Guides (V2.0)                   | ✅ Implemented |
-| Application Window (V2.0)                   | ✅ Implemented |
+| User Login / Auth (v1.0)                     | ✅ Implemented |
+| Excursion Listing (v1.0)                     | ✅ Implemented |
+| Profile Management (v1.0)                    | ✅ Implemented |
+| Guide's Calendar Integration (v1.0)          | ✅ Implemented |
+| Admin's Calendar Integration (v2.0)          | ✅ Implemented |
+| Blacklist of Users (v2.0)                    | ✅ Implemented |
+| Blacklist of Guides (v2.0)                   | ✅ Implemented |
+| Application Window (v2.0)                   | ✅ Implemented |
 | Customer Feedback & Testing            | ⏳ In Progress |
-| Real Time Notifications (V3.0)        | ⬜ Planned |
+| Real Time Notifications (v3.0)        | ⬜ Planned |
 
 ---
 

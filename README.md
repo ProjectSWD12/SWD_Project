@@ -93,16 +93,23 @@ Even users who say _“I just copy and paste without reading”_ will find the i
 
 ---
 
-## 🛠 Installation & Deployment
+## Installation & Deployment
+> Reproducible by **любого** члена команды.
 
 ### Prerequisites
-- Flutter SDK
-- Firebase CLI
-- Dart >=3.0.0
+| Tool | Version |
+|------|---------|
+| Flutter | 3.22+ |
+| Dart | 3.4+ |
+| Firebase CLI | 12+ |
+| Node.js (for scripts) | 18+ |
 
-### Steps
+### Local setup
 
 ```bash
 git clone https://github.com/ProjectSWD12/SWD_Project.git
 cd SWD_Project
-flutter pub get
+flutter pub get                 # install dependencies
+cp .env.example .env            # add your secrets
+firebase emulators:start &       # (optional) run local Firebase
+flutter run                     # launch on device or web

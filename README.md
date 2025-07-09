@@ -1,3 +1,4 @@
+
 # TourGuide Manager 🚀
 
 ![Project Logo](docs/architecture/logo.jpg)
@@ -16,7 +17,7 @@ This repository contains the source code and documentation for our MVP releases.
 ---
 
 ## 📌 Table of Contents
-- [About the Project](#about-the-project)
+- [About the Project](#-about-the-project)
 - [Project Context](#project-context)
 - [Feature Roadmap](#feature-roadmap)
 - [Usage Guide](#usage-guide)

@@ -42,7 +42,7 @@ It is built using technologies such as **Flutter**, **Firebase**, and **GitHub A
 ## 👥 Project Context
 
 Stakeholders:
-- Customer: _Karina Shavalieva (@K_Arbyzova)_, _Hannanov Rishat (@RishatHannanov)_
+- Customers: _Karina Shavalieva (@K_Arbyzova)_, _Hannanov Rishat (@RishatHannanov)_
 - Developers:
 
 | Participant      | Role            | GitHub Link                       |

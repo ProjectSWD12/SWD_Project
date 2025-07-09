@@ -6,7 +6,8 @@ This repository contains the source code and documentation for our MVP releases.
 ## 📍 Live Demo  
 [👉 Deployed Version]
 - (https://tourapp-66e02.web.app/)
-- (https://tourappmanager.ru/) 
+- (https://tourappmanager.ru/)
+  
 [🎥 Watch Demo Video (2 mins)](https://your-demo-video-link.com)
 
 ---

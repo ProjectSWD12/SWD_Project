@@ -23,8 +23,8 @@ This repository contains the source code and documentation for our MVP releases.
 - [Usage Guide](#-usage-guide)
 - [Installation & Deployment](#installation--deployment)
 - [Documentation](#documentation)
-- [Changelog](#changelog)
-- [License](#license)
+- [CHANGELOG.md](CHANGELOG.md)
+- [LICENSE](LICENSE)
 
 ---
 

@@ -112,6 +112,4 @@ Even users who say _“I just copy and paste without reading”_ will find the i
 git clone https://github.com/ProjectSWD12/SWD_Project.git
 cd SWD_Project
 flutter pub get                 # install dependencies
-cp .env.example .env            # add your secrets
-firebase emulators:start &      # (optional) run local Firebase
 flutter run                     # launch on device or web

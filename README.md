@@ -18,9 +18,9 @@ This repository contains the source code and documentation for our MVP releases.
 
 ## 📌 Table of Contents
 - [About the Project](#-about-the-project)
-- [Project Context](#project-context)
-- [Feature Roadmap](#feature-roadmap)
-- [Usage Guide](#usage-guide)
+- [Project Context](#-project-context)
+- [Feature Roadmap](#-feature-roadmap)
+- [Usage Guide](#-usage-guide)
 - [Installation & Deployment](#installation--deployment)
 - [Documentation](#documentation)
 - [Changelog](#changelog)

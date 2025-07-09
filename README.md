@@ -1,84 +1,90 @@
-# README
+# SWD Project 🚀
+
+A software development project for [Your Customer Name or Organization].  
+This repository contains the source code and documentation for our MVP releases.
+
+## 📍 Live Demo  
+[👉 Deployed Version](https://your-deployment-link.com)  
+[🎥 Watch Demo Video (2 mins)](https://your-demo-video-link.com)
 
 ---
 
-## Usage
-
-**MVP v2**. 
-- website for guides: https://tourapp-66e02.web.app/
-- website for admins: https://tourappmanager.ru/
-
-
-- **Demo URL:** <https://drive.google.com/file/d/1DVCs-t82TkSLsX1VMkCp7MJSUV_Ry7Mq/view?usp=sharing>  <!-- TODO: replace -->
-- **Test credentials no need - just register.**
-
----
-
-## Architecture
-
-> Diagrams are stored in `docs/architecture/`. Format: PlantUML.
-
-### Static view
-
-![Component diagram](docs/architecture/StaticView.svg)
-
-Shows the system’s structure at rest. List the main modules, services, or libraries, the APIs they expose, and the compile-time or package-time dependencies between them. A reviewer should be able to see which parts can be replaced independently and where tight coupling may cause ripple effects.
-
-### Dynamic view
-
-![Sequence diagram](docs/architecture/DynamicView.svg)
-
-Captures the behaviour of the system during a single, meaningful scenario (e.g., “user searches the gallery”). It traces the exact order of calls, data formats, error paths, and latency-critical hops across objects or services. This helps spot race conditions, redundant round-trips, and security gaps.
-
-### Deployment view
-
-![Deployment diagram](docs/architecture/Deployment.svg)
-
-Describes the runtime topology: which containers/services run on which nodes, what networks and ports connect them, and which cloud resources are involved (DB, queue, CDN, secrets store, etc.). Include redundancy (replicas, zones) and scaling units, so Ops can gauge fault tolerance and cost.
+## 📌 Table of Contents
+- [About the Project](#about-the-project)
+- [Project Context](#project-context)
+- [Feature Roadmap](#feature-roadmap)
+- [Usage Guide](#usage-guide)
+- [Installation & Deployment](#installation--deployment)
+- [Documentation](#documentation)
+- [Changelog](#changelog)
+- [License](#license)
 
 ---
 
-## Development
+## 🧠 About the Project
 
-### Kanban board
+This project aims to [brief description of the problem you're solving].  
+Our goals are:
+- ✅ Deliver a user-friendly MVP
+- ✅ Gather feedback via customer testing
+- ✅ Improve usability and performance iteratively
 
-- **Link:** <https://github.com/users/ProjectSWD12/projects/1>
-- **Entry criteria:**
-  | Column | Entry criteria |
-  |--------|----------------|
-  | **Backlog** | Issue created, priority set |
-  | **Ready**   | Estimated (Story Points), acceptance criteria defined |
-  | **In Progress** | MR created, assignee set |
-  | **Review** | CI ✅, PR checklist passed |
-  | **Done** | MR merged into `main`, issue closed |
-
-### Git workflow
-
-- **Base flow:** Gitflow
-- **Pull request template:** `.github/workflows/flutter_ci.yml`.
+It is built using technologies such as **Flutter**, **Firebase**, and **GitHub Actions** for CI/CD.
 
 ---
 
-## Quality assurance
+## 👥 Project Context
 
-### Automated tests
+Stakeholders:
+- Customer: _[insert name]_
+- Developers: _Team SWD12_
 
-| Type | Framework | Path |
-|------|-----------|------|
-| Unit | pytest | `tour_guide_manager/test/` |
-| Integration | pytest + Docker | `tour_guide_manager/integration_test/` |
-| Static analysis | flutter analyze, dart analyze, flutter_lints, very_good_analysis | `.github/workflows/flutter_ci.yml` |
+External Systems:
+- Firebase Authentication
+- Firestore Database
+- Telegram Bot API (if used)
 
----
-
-## Build and deployment
-
-### Continuous Integration
-
-- **Workflow files:**
-  - `.github/workflows/flutter_ci.yml` — linting, unit + integration tests, coverage.
-- **Static analysers:** flutter analyze, dart analyze, flutter_lints, very_good_analysis.
+📌 Context Diagram:  
+![Context Diagram](docs/architecture/context-diagram.png)
 
 ---
 
-<!-- End of template -->
+## ✅ Feature Roadmap
+
+| Feature                                | Status       |
+|----------------------------------------|--------------|
+| User Login / Auth                      | ✅ Implemented |
+| Excursion Listing                      | ✅ Implemented |
+| Profile Management                     | ✅ Implemented |
+| Calendar Integration                   | ✅ Implemented |
+| Subscription Flow                      | ✅ Implemented |
+| Customer Feedback & Testing            | ⏳ In Progress |
+| Admin Analytics Dashboard              | ⬜ Planned |
+
+---
+
+## 🧾 Usage Guide
+
+1. Visit the [deployed app](https://your-deployment-link.com)
+2. Log in with your credentials
+3. Use the calendar to browse excursions
+4. Open Profile to view your plan
+5. If you see an empty task screen, upgrade your plan
+
+Even users who say _“I just copy and paste without reading”_ will find the interface intuitive and straightforward.
+
+---
+
+## 🛠 Installation & Deployment
+
+### Prerequisites
+- Flutter SDK
+- Firebase CLI
+- Dart >=3.0.0
+
+### Steps
+
+```bash
+git clone https://github.com/ProjectSWD12/SWD_Project.git
+cd SWD_Project
+flutter pub get

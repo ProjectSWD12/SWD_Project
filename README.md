@@ -68,20 +68,23 @@ External Systems:
 | User Login / Auth                      | ✅ Implemented |
 | Excursion Listing                      | ✅ Implemented |
 | Profile Management                     | ✅ Implemented |
-| Calendar Integration                   | ✅ Implemented |
-| Subscription Flow                      | ✅ Implemented |
+| Guide's Calendar Integration           | ✅ Implemented |
+| Admin's Calendar Integration           | ✅ Implemented |
+| Blacklist of Users                     | ✅ Implemented |
+| Blacklist of Guides                    | ✅ Implemented |
+| Application Window                     | ✅ Implemented |
 | Customer Feedback & Testing            | ⏳ In Progress |
-| Admin Analytics Dashboard              | ⬜ Planned |
+| Notifications About Excursions         | ⬜ Planned |
 
 ---
 
 ## 🧾 Usage Guide
 
-1. Visit the [deployed app](https://your-deployment-link.com)
-2. Log in with your credentials
+1. Visit the [Guide Interaface](https://tourapp-66e02.web.app/)
+2. Register in with your credentials
 3. Use the calendar to browse excursions
-4. Open Profile to view your plan
-5. If you see an empty task screen, upgrade your plan
+4. Visit the [Admin Interface](https://tourappmanager.ru/)
+5. Manage Excursions
 
 Even users who say _“I just copy and paste without reading”_ will find the interface intuitive and straightforward.
 

@@ -10,6 +10,8 @@ This repository contains the source code and documentation for our MVP releases.
 - (https://tourapp-66e02.web.app/)
 - (https://tourappmanager.ru/)
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green?logo=vercel)](https://tourapp-66e02.web.app/) 
+
 [![Watch Demo Video](https://img.shields.io/badge/Watch-2 min demo-ff69b4?logo=youtube)](https://youtube.demo.link)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

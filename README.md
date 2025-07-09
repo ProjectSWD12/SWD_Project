@@ -7,7 +7,7 @@ This repository contains the source code and documentation for our MVP releases.
 
 ## 📍 Live Demo  
 [👉 Deployed Version]
-- [![For Guides](https://img.shields.io/badge/For-Guides-green?logo=vercel)](https://tourapp-66e02.web.app/) 
+- [![For Guides](https://img.shields.io/badge/For-Guides-purple?logo=vercel)](https://tourapp-66e02.web.app/) 
 - [![For Admins](https://img.shields.io/badge/For-Admins-purple?logo=square)](https://tourappmanager.ru/) 
 
 [![Watch Demo Video](https://img.shields.io/badge/Watch-2 min demo-ff69b4?logo=youtube)](https://youtube.demo.link)

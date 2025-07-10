@@ -20,6 +20,7 @@ class DummyDocument:
         return self
 
 class DummyDocumentRef:
+
     def __init__(self, collection, id):
         self.collection = collection
         self.id = id
@@ -39,6 +40,7 @@ class DummyDocumentRef:
     def delete(self):
         self.collection.docs.pop(self.id, None)
 
+
 class DummyCollection:
     def __init__(self):
         self.docs = {}
@@ -53,6 +55,7 @@ class DummyCollection:
         if id not in self.docs:
             self.docs[id] = {}
         return DummyDocumentRef(self, id)
+
 
 class DummyFirestore:
     def __init__(self):

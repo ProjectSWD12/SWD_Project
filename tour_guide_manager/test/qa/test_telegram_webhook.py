@@ -1,7 +1,6 @@
 import requests
 
 WEBHOOK_URL = "http://localhost:8000/api/telegram/webhook"
-
 def test_telegram_bot_webhook():
     payload = {
         "message": {

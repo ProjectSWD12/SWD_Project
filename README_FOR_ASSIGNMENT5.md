@@ -71,6 +71,7 @@ Document: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-a
 | **Unit** | `flutter_test` (+ `mockito` for mocks) | `tour_guide_manager/test/` | `flutter test` |
 | **QA (Acceptance)** | `flutter_test` (widget / golden) | `tour_guide_manager/test/qa/` | `flutter test test/qa` |
 | **Integration** | `integration_test` | `tour_guide_manager/integration_test/` | `flutter test integration_test` |
+| **Admin** | `pytest` | `Admin/tests/` | `pytest Admin/tests` |
 
 <details>
 <summary>What each level covers</summary>
@@ -92,7 +93,7 @@ Document: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-a
 ---
 
 ### ⚙️ Continuous integration
-CI is handled by **`.github/workflows/flutter_ci.yml`** and runs on every `push` and `pull_request`.
+CI is handled by **`.github/workflows/flutter_ci.yml`** and **`.github/workflows/python_ci.yml`** and runs on every `push` and `pull_request`.
 
 1. **Checkout** source code.  
 2. **Set up Flutter** (stable channel, cached).  
@@ -114,6 +115,7 @@ A pull request cannot be merged unless this workflow succeeds.
 | Unit | pytest | `tour_guide_manager/test/` |
 | Integration | pytest + Docker | `tour_guide_manager/integration_test/` |
 | Static analysis | flutter analyze, very_good_analysis, riverpod_lint | `.github/workflows/flutter_ci.yml` |
+| Admin | pytest | `Admin/tests/` |
 
 ### User acceptance tests
 All tests are listed in the product backlog.
@@ -128,6 +130,7 @@ Document: [https://github.com/users/ProjectSWD12/projects/1](https://github.com/
 
 - **Workflow files:**
   - `.github/workflows/flutter_ci.yml` — linting, unit + integration tests, coverage.
-- **Static analysers:** flutter analyze, very_good_analysis, riverpod_lint.
+ `.github/workflows/python_ci.yml` — runs backend tests with pytest.
+  - **Static analysers:** flutter analyze, very_good_analysis, riverpod_lint.
 
 ---

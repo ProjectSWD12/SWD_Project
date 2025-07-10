@@ -20,39 +20,42 @@ class DummyDocument:
         return self
 
 class DummyDocumentRef:
-    def __init__(self, collection, doc_id):
+
+    def __init__(self, collection, id):
         self.collection = collection
-        self.doc_id = doc_id
+        self.id = id
 
     def get(self):
-        data = self.collection.docs.get(self.doc_id)
-        return DummyDocument(self.doc_id, data)
+        data = self.collection.docs.get(self.id)
+        return DummyDocument(self.id, data)
 
     def set(self, data):
-        self.collection.docs[self.doc_id] = data
+        self.collection.docs[self.id] = data
 
     def update(self, data):
-        if self.doc_id not in self.collection.docs:
+        if self.id not in self.collection.docs:
             raise KeyError
-        self.collection.docs[self.doc_id].update(data)
+        self.collection.docs[self.id].update(data)
 
     def delete(self):
-        self.collection.docs.pop(self.doc_id, None)
+        self.collection.docs.pop(self.id, None)
+
 
 class DummyCollection:
     def __init__(self):
         self.docs = {}
 
     def stream(self):
-        for doc_id, data in self.docs.items():
-            yield DummyDocument(doc_id, data)
+        for id, data in self.docs.items():
+            yield DummyDocument(id, data)
 
-    def document(self, doc_id=None):
-        if doc_id is None:
-            doc_id = f"id{len(self.docs)+1}"
-        if doc_id not in self.docs:
-            self.docs[doc_id] = {}
-        return DummyDocumentRef(self, doc_id)
+    def document(self, id=None):
+        if id is None:
+            id = f"id{len(self.docs)+1}"
+        if id not in self.docs:
+            self.docs[id] = {}
+        return DummyDocumentRef(self, id)
+
 
 class DummyFirestore:
     def __init__(self):

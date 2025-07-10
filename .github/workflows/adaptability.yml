@@ -1,0 +1,29 @@
+# Adaptability – build the app on multiple runner OSes to prove portability
+# Trigger: every push and PR to main
+name: Adaptability‑Matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build‑flutter:
+    strategy:
+      matrix:
+        os: [ubuntu‑latest, windows‑latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter‑action@v2
+        with:
+          channel: stable
+      - name: Run unit tests
+        run: flutter test
+      - name: Build APK (Linux) or Windows bundle
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build apk --debug
+      - name: Build Windows desktop app
+        if: matrix.os == 'windows-latest'
+        run: flutter build windows --debug

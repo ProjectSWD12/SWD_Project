@@ -38,7 +38,7 @@ Describes the runtime topology: which containers/services run on which nodes, wh
 
 ### Kanban board
 
-- **Link:** <https://gitlab.com/example/project/-/boards>
+- **Link:** <https://github.com/users/ProjectSWD12/projects/1>
 - **Entry criteria:**
   | Column | Entry criteria |
   |--------|----------------|

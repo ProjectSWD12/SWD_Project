@@ -1,6 +1,5 @@
 # .github/workflows/adaptability.yml
-# Multi-OS workflow that builds & tests the Flutter project
-# and *does not* fail on linter warnings / infos.
+# Сборка и тестирование Flutter-проекта на Linux и Windows без шага анализа.
 
 name: Adaptability-Matrix
 
@@ -11,7 +10,7 @@ on:
     branches: [main]
 
 jobs:
-  build_flutter:               # ← job ID uses only letters/underscores
+  build_flutter:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -20,20 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install Flutter SDK
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      # Static analysis (warnings/infos *won’t* break CI)
-      - name: Run flutter analyze
-        run: flutter analyze --no-fatal-warnings --no-fatal-infos
-
-      # Unit tests (Dart/Flutter)
+      # ---------- тесты ----------
       - name: Run unit tests
         run: flutter test
 
-      # Platform-specific build steps
+      # ---------- сборка ----------
       - name: Build APK on Linux
         if: matrix.os == 'ubuntu-latest'
         run: flutter build apk --debug

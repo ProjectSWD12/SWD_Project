@@ -16,7 +16,7 @@
 
 ### Static view
 
-![Component diagram](docs/architecture/static-view/component.svg)
+![Component diagram](docs/architecture/StaticView.svg)
 
 <Brief explanation of how the chosen modular structure reduces coupling and improves maintainability.>
 

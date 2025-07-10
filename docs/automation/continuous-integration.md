@@ -9,4 +9,4 @@
 - Build Check
 
 ## Example
-See `.github/workflows/ci.yml`
+See `.github/workflows/flutter_ci.yml`

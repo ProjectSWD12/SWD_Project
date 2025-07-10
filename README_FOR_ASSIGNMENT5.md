@@ -69,13 +69,15 @@ Document: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-a
 | Test level | Tooling | Directory | Local command |
 |------------|---------|-----------|---------------|
 | **Unit** | `flutter_test` (+ `mockito` for mocks) | `tour_guide_manager/test/` | `flutter test` |
+| **QA (Acceptance)** | `flutter_test` (widget / golden) | `tour_guide_manager/test/qa/` | `flutter test test/qa` |
 | **Integration** | `integration_test` | `tour_guide_manager/integration_test/` | `flutter test integration_test` |
 
 <details>
 <summary>What each level covers</summary>
 
 * **Unit** – isolated Dart classes, widgets and functions; external dependencies are mocked.  
-* **Integration** – verifies how multiple layers work together on a real/emulated device using the Flutter `integration_test` harness.
+* **QA / Acceptance** – higher-level widget or golden tests that validate complete UI flows against product requirements.  
+* **Integration** – ensures multiple layers work together on a real/emulated device using the Flutter `integration_test` harness.
 </details>
 
 ---
@@ -96,8 +98,11 @@ CI is handled by **`.github/workflows/flutter_ci.yml`** and runs on every `push`
 2. **Set up Flutter** (stable channel, cached).  
 3. **Install dependencies** via `flutter pub get`.  
 4. **Static analysis** — `flutter analyze`.  
-5. **Run tests** — unit (`flutter test`) and integration (`flutter test integration_test`).  
+5. **Run tests** — unit (`flutter test`), QA/acceptance (`flutter test test/qa`), and integration (`flutter test integration_test`).  
 6. *(Optional)* **Build release artifacts** once all checks pass.
+
+A pull request cannot be merged unless this workflow succeeds.
+
 
 A pull request cannot be merged unless this workflow succeeds.
 

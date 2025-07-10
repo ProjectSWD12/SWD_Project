@@ -22,7 +22,7 @@
 
 ### Dynamic view
 
-![Sequence diagram](docs/architecture/dynamic-view/sequence.svg)
+![Sequence diagram](docs/architecture/DynamicView.svg)
 
 <Describe the scenario, measured response time (ms) and bottlenecks.>
 

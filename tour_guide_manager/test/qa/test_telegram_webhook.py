@@ -1,4 +1,3 @@
-# tests/qa/test_telegram_webhook.py
 import requests
 
 WEBHOOK_URL = "http://localhost:8000/api/telegram/webhook"

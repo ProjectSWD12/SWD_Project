@@ -3,7 +3,7 @@
 - [Introduction](introduction.md)
 
 # Development
-  - [Git workflow](.github/workflows)
+  - [Git workflow](SWD_Project/.github/workflows)
   - [Secrets management](docs/secrets-management.md)
 
 # Architecture

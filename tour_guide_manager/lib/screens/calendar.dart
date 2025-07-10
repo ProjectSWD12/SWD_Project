@@ -2,22 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:tour_guide_manager/colors.dart';
 
-String formatManual(int day, int month) {
+
+String formatManual(int d, int m) {
   const months = [
-    'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
+    'января','февраля','марта','апреля','мая','июня',
+    'июля','августа','сентября','октября','ноября','декабря',
   ];
-  return '$day ${months[month - 1]}';
+  return '$d ${months[m - 1]}';
 }
+
+double fs(double base) =>
+    base * (ScreenUtil().scaleWidth < 1 ? ScreenUtil().scaleWidth : 1);
+
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
-
-  @override
-  State<Calendar> createState() => _CalendarState();
+  @override State<Calendar> createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
@@ -26,10 +30,10 @@ class _CalendarState extends State<Calendar> {
   bool isLoading = false;
   String message = 'Нет экскурсий';
 
-  final List<String> weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-  final List<String> fullWeekdays = [
-    'понедельник', 'вторник', 'среда', 'четверг',
-    'пятница', 'суббота', 'воскресенье'
+  final weekdays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  final fullWeekdays = [
+    'понедельник','вторник','среда','четверг',
+    'пятница','суббота','воскресенье'
   ];
 
   @override
@@ -39,57 +43,34 @@ class _CalendarState extends State<Calendar> {
   }
 
   Future<void> _loadExcursions(DateTime date) async {
-    setState(() {
-      isLoading = true;
-      message = 'Нет экскурсий';
-    });
-
-    final String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    setState(() { isLoading = true; message = 'Нет экскурсий'; });
+    final formatted = DateFormat('yyyy-MM-dd').format(date);
 
     try {
-      final String userEmail = FirebaseAuth.instance.currentUser!.email!;
-      final firestore = FirebaseFirestore.instance;
-      final QuerySnapshot snapshot = await firestore.collection('excursions')
-          .where('assignedTo', isEqualTo: userEmail)
-          .where('date', isEqualTo: formattedDate)
+      final email = FirebaseAuth.instance.currentUser!.email!;
+      final snap  = await FirebaseFirestore.instance
+          .collection('excursions')
+          .where('assignedTo', isEqualTo: email)
+          .where('date',       isEqualTo: formatted)
           .orderBy('time')
           .get();
 
-      final List<ExcursionModel> parsedExcursions = [];
-      for (var doc in snapshot.docs) {
-        final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        final int people = data['people'] ?? 0;
-        final String route = data['route'] ?? 'не указан';
-        final String type = data['type'] ?? 'Экскурсия';
-        final String time = data['time'] ?? 'не указано';
-        final String meetingPlace = data['meetingPlace'] ?? 'не указано';
-        final String hasLunch = (data['lunch'] ?? false) ? 'да' : 'нет';
-        final String hasMasterClass = (data['masterClass'] ?? false) ? 'да' : 'нет';
-        parsedExcursions.add(
-          ExcursionModel(
-            people: people,
-            route: route,
-            type: type,
-            time: time,
-            meetingPlace: meetingPlace,
-            lunch: hasLunch,
-            masterClass: hasMasterClass
-          )
+      excursions = snap.docs.map((d) {
+        final m = d.data() as Map<String,dynamic>;
+        return ExcursionModel(
+          people       : m['people'] ?? 0,
+          route        : m['route']  ?? 'не указан',
+          type         : m['type']   ?? 'Экскурсия',
+          time         : m['time']   ?? 'не указано',
+          meetingPlace : m['meetingPlace'] ?? 'не указано',
+          lunch        : (m['lunch'] ?? false)       ? 'да' : 'нет',
+          masterClass  : (m['masterClass'] ?? false) ? 'да' : 'нет',
         );
-      }
-      setState(() {
-        excursions = parsedExcursions;
-      });
-    } catch (e) {
-      setState(() {
-        excursions = [];
-        message = 'Ошибка загрузки';
-      });
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
+      }).toList();
+      setState(() {});
+    } catch (_) {
+      setState(() { excursions = []; message = 'Ошибка загрузки'; });
+    } finally { setState(() => isLoading = false); }
   }
 
   @override
@@ -97,10 +78,8 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text(
-          'Мои экскурсии',
-          style: TextStyle(fontWeight: FontWeight.w600)
-        ),
+        title: Text('Мои экскурсии',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: fs(18))),
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -108,105 +87,105 @@ class _CalendarState extends State<Calendar> {
       ),
       backgroundColor: AppColors.background,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 82,
+            height: 96,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 8,
-              ),
-              child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: 14,
-                itemBuilder: (context, index) {
-                  final DateTime date = DateTime.now().add(Duration(days: index));
-                  final String weekday = weekdays.elementAt(date.weekday - 1);
-                  final bool isSelected = date.year == _selectedDate.year &&
-                      date.month == _selectedDate.month &&
-                      date.day == _selectedDate.day;
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  const int totalDays = 14;
+                  const double spacing = 8;          
+                  const double minBtn = 56;         
 
-                  return TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: isSelected ? AppColors.darkBlue : Colors.white,
-                      foregroundColor: isSelected ? Colors.white : AppColors.darkGrey,
-                      minimumSize: const Size(46, 66),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      _loadExcursions(date);
-                      setState(() {
-                        _selectedDate = date;
-                      });
+                  final double neededWidth = totalDays * minBtn + (totalDays - 1) * spacing;
+
+                  final bool showAll = constraints.maxWidth >= neededWidth;
+
+                  final double btnWidth = showAll
+                      ? (constraints.maxWidth - (spacing * (totalDays - 1))) / totalDays
+                      : minBtn;
+
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    physics:
+                    showAll ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+                    itemCount: totalDays,
+                    itemBuilder: (context, index) {
+                      final DateTime date = DateTime.now().add(Duration(days: index));
+                      final String weekday = weekdays[date.weekday - 1];
+                      final bool isSelected = date.year == _selectedDate.year &&
+                          date.month == _selectedDate.month &&
+                          date.day == _selectedDate.day;
+
+                      return SizedBox(
+                        width: btnWidth,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                            isSelected ? AppColors.darkBlue : Colors.white,
+                            foregroundColor:
+                            isSelected ? Colors.white : AppColors.darkGrey,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            _loadExcursions(date);
+                            setState(() => _selectedDate = date);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('${date.day}',
+                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                              Text(weekday,
+                                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          date.day.toString(),
-                          style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w500
-                          ),
-                        ),
-                        Text(
-                          weekday,
-                          style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500
-                          ),
-                        ),
-                      ],
-                    ),
+                    separatorBuilder: (_, __) => const SizedBox(width: spacing),
                   );
                 },
-                separatorBuilder: (context, index) => const SizedBox(width: 8),
               ),
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+            padding: EdgeInsets.fromLTRB(0, 8.h, 0, 16.h),
             child: Text(
-              '${formatManual(_selectedDate.day, _selectedDate.month)}, ${fullWeekdays[_selectedDate.weekday - 1]}',
-              style: const TextStyle(
+              '${formatManual(_selectedDate.day,_selectedDate.month)}, '
+                  '${fullWeekdays[_selectedDate.weekday-1]}',
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: AppColors.darkGrey,
-                fontSize: 20,
+                color     : AppColors.darkGrey,
+                fontSize  : fs(20),
               ),
             ),
           ),
           Expanded(
-            child: isLoading ?
-            const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.darkBlue,
-              ),
-            ) : excursions.isEmpty ?
-            Column(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator(color: AppColors.darkBlue))
+                : excursions.isEmpty
+                ? Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 40),
-                SvgPicture.asset(
-                  'assets/no_data.svg',
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.33,
-                ),
-                Text(
-                  message,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 60),
+                SizedBox(height: 40.h),
+                SvgPicture.asset('assets/no_data.svg',
+                    width: 0.7.sw, height: 0.33.sh),
+                Text(message,
+                    style: TextStyle(fontSize: fs(20), fontWeight: FontWeight.w500)),
+                SizedBox(height: 60.h),
               ],
-            ) :
-            ListView.separated(
+            )
+                : ListView.separated(
               physics: const BouncingScrollPhysics(),
               itemCount: excursions.length,
-              itemBuilder: (context, index) {
-                return ExcursionCard(model: excursions[index]);
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
+              itemBuilder: (_, i) => ExcursionCard(model: excursions[i]),
+              separatorBuilder: (_, __) => SizedBox(height: 12.h),
             ),
           ),
         ],
@@ -222,11 +201,11 @@ class ExcursionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.all(16),
+      margin : EdgeInsets.symmetric(horizontal: 24.w),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color        : Colors.white,
+        borderRadius : BorderRadius.circular(12.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,41 +213,37 @@ class ExcursionCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                model.type,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.darkGrey,
-                ),
-              ),
-              Text(
-                model.time,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.darkGrey,
-                ),
-              ),
+              Text(model.type,
+                  style: TextStyle(fontSize: fs(17),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.darkGrey)),
+              Text(model.time,
+                  style: TextStyle(fontSize: fs(17),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.darkGrey)),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             'Место встречи: ${model.meetingPlace}\n'
-            'Маршрут: ${model.route}\n'
-            'Кол-во человек: ${model.people}\n'
-            'Обед: ${model.lunch}\n'
-            'Мастер-класс: ${model.masterClass}',
-            style: const TextStyle(color: AppColors.grey, fontWeight: FontWeight.w500),
+                'Маршрут: ${model.route}\n'
+                'Кол-во человек: ${model.people}\n'
+                'Обед: ${model.lunch}\n'
+                'Мастер-класс: ${model.masterClass}',
+            style: TextStyle(
+              color: AppColors.grey,
+              fontWeight: FontWeight.w500,
+              fontSize: fs(14),
+            ),
           ),
         ],
-      )
+      ),
     );
   }
 }
 
 class ExcursionModel {
-  final int people;
+  final int    people;
   final String time;
   final String type;
   final String route;

@@ -8,12 +8,6 @@
 - website for guides: https://tourapp-66e02.web.app/
 - website for admins: https://tourappmanager.ru/
 
-
-- **Demo URL:** <https://example.com>  <!-- TODO: replace -->
-- **Test credentials:**
-  - login: `achegaev06@gmail.com`
-  - password: `abc22wqq`
-
 ---
 
 ## Architecture

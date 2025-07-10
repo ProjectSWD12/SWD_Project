@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tour_guide_manager/colors.dart';
 import 'applications.dart';
 import 'calendar.dart';
@@ -7,12 +6,17 @@ import 'profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _screens = [const Calendar(), const Applications(), const Profile()];
+  final List<Widget> _screens = [
+    const Calendar(),
+    const Applications(),
+    const Profile(),
+  ];
   int _currentIndex = 0;
 
   @override
@@ -24,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        height: kBottomNavigationBarHeight + MediaQuery.of(context).padding.bottom + 4,
+        height: MediaQuery.of(context).size.height * 0.1,
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: Colors.grey.shade200)),
           color: Colors.white,

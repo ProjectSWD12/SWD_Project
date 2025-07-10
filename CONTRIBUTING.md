@@ -14,7 +14,7 @@ The following guidelines help us maintain a consistent and high-quality codebase
 - [ ] **Kanban board** – review the current sprint board and pick an open issue  
       <https://github.com/ProjectSWD12/SWD_Project/projects/1>
 - [ ] **Git workflow** – read our branching & commit conventions  
-      (see [`docs/git-workflow.md`](.git-workflow.md))
+      (see [`.github/workflows`](.github/workflows))
 - [ ] **Secrets management** – know how to handle API keys and `.env` files  
       (see [`docs/secrets-management.md`](docs/secrets-management.md))
 

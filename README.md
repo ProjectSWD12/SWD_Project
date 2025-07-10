@@ -103,6 +103,8 @@ Even users who say _“I just copy and paste without reading”_ will find the i
 |------|---------|
 | Flutter | 3.22+ |
 | Dart | 3.4+ |
+| React | 18.2.0 |
+| Python | 3.12.4 |
 | Firebase CLI | 12+ |
 | Node.js (for scripts) | 18+ |
 

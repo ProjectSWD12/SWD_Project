@@ -28,7 +28,7 @@
 
 ### Deployment view
 
-![Deployment diagram](docs/architecture/deployment-view/deployment.svg)
+![Deployment diagram](docs/architecture/Deployment.svg)
 
 <Comment on customer installation, infrastructure and required permissions.>
 

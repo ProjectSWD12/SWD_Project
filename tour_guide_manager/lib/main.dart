@@ -9,6 +9,7 @@ import 'screens/calendar.dart';
 import 'screens/auth/login_screen.dart';
 import 'firebase_options.dart';
 import 'colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,21 +24,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Tour Guide Manager',
-      theme: ThemeData(useMaterial3: true),
-      home: const AuthGate(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegistrationScreen(),
-        '/profile': (context) => const Profile(),
-        '/calendar': (context) => const Calendar(),
-        '/auth': (context) => const AuthGate(),
-        '/applications': (context) => const Applications()
-      },
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: false,             
+      splitScreenMode: true,
+      builder: (_, __) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Tour Guide Manager',
+        theme: ThemeData(useMaterial3: true),
+        home: const AuthGate(),
+        routes: {
+          '/login'       : (context) => const LoginScreen(),
+          '/register'    : (context) => const RegistrationScreen(),
+          '/profile'     : (context) => const Profile(),
+          '/calendar'    : (context) => const Calendar(),
+          '/auth'        : (context) => const AuthGate(),
+          '/applications': (context) => const Applications(),
+        },
+      ),
     );
   }
+
 }
 
 class AuthGate extends StatelessWidget {

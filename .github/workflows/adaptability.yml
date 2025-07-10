@@ -23,8 +23,8 @@ jobs:
 
       # ---------- UNIT TESTS (Flutter) ----------
       - name: Run Flutter unit tests
-        working-directory: tour_guide_manager          # <─ вот главное
-        run: flutter test                              # ищет test/ внутри проекта
+        working-directory: tour_guide_manager         
+        run: flutter test                             
 
       # ---------- PYTHON TESTS (если нужно) ----------
       - name: Run Python QA tests

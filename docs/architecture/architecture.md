@@ -20,5 +20,7 @@ Describes the runtime topology: which containers/services run on which nodes, wh
 
 ## Tech Stack
 - Flutter (Dart)
+- React
+- Python
 - Firebase
 - GitHub Actions

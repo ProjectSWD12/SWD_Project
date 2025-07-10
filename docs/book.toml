@@ -1,9 +1,0 @@
-[book]
-title = "Tour Guide Manager Docs"
-
-[build]
-build-dir = "book" 
-create-missing = false
-
-[output.html]
-default-theme = "dark"

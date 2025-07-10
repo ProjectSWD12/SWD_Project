@@ -63,6 +63,45 @@ Does not working.
 
 Document: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-assurance/quality-attribute-scenarios.md)
 
+## 🛠️ Quality assurance
+
+### 🔬 Automated tests
+| Test level | Tooling | Directory | Local command |
+|------------|---------|-----------|---------------|
+| **Unit** | `flutter_test` (+ `mockito` for mocks) | `tour_guide_manager/test/` | `flutter test` |
+| **Integration** | `integration_test` | `tour_guide_manager/integration_test/` | `flutter test integration_test` |
+
+<details>
+<summary>What each level covers</summary>
+
+* **Unit** – isolated Dart classes, widgets and functions; external dependencies are mocked.  
+* **Integration** – verifies how multiple layers work together on a real/emulated device using the Flutter `integration_test` harness.
+</details>
+
+---
+
+### 🧹 Static analysis
+* **Command:** `flutter analyze --fatal-infos --fatal-warnings`  
+* **Linters:**  
+  * `very_good_analysis` – opinionated rule-set adopted by the team  
+  * `riverpod_lint` – extra checks for Riverpod state-management patterns  
+* **Config:** rules are defined in `analysis_options.yaml` at the repository root.
+
+---
+
+### ⚙️ Continuous integration
+CI is handled by **`.github/workflows/flutter_ci.yml`** and runs on every `push` and `pull_request`.
+
+1. **Checkout** source code.  
+2. **Set up Flutter** (stable channel, cached).  
+3. **Install dependencies** via `flutter pub get`.  
+4. **Static analysis** — `flutter analyze`.  
+5. **Run tests** — unit (`flutter test`) and integration (`flutter test integration_test`).  
+6. *(Optional)* **Build release artifacts** once all checks pass.
+
+A pull request cannot be merged unless this workflow succeeds.
+
+
 ### Automated tests
 
 | Type | Framework | Path |

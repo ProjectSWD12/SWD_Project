@@ -1,5 +1,4 @@
 #!/bin/bash
-# tests/qa/test_deploy_linux.sh
 
 echo "🛠️ Testing deployment to Linux environment..."
 

@@ -19,6 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn pytest httpx
+          pip install fastapi uvicorn pytest httpx dotenv
+
       - name: Run pytest
         run: pytest Admin/tests

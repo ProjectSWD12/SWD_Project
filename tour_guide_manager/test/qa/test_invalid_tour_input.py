@@ -1,11 +1,10 @@
-# tests/qa/test_invalid_tour_input.py
 import requests
 
 BASE_URL = "http://localhost:8000/api/tours"
 
 def test_create_invalid_tour():
     payload = {
-        "name": "",  # Invalid: empty name
+        "name": "", 
         "description": "x",
         "date": "invalid-date",
         "price": -5

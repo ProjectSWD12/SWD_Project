@@ -11,11 +11,11 @@ The following guidelines help us maintain a consistent and high-quality codebase
 > Use this list to ensure you’ve familiarised yourself with the core
 > project assets before opening a pull request.
 
-- [ ] **Kanban board** – review the current sprint board and pick an open issue  
+- [ x ] **Kanban board** – review the current sprint board and pick an open issue  
       <https://github.com/users/ProjectSWD12/projects/1>
-- [ ] **Git workflow** – read our branching & commit conventions  
+- [ x ] **Git workflow** – read our branching & commit conventions  
       (see [`.github/workflows`](.github/workflows))
-- [ ] **Secrets management** – know how to handle API keys and `.env` files  
+- [ x ] **Secrets management** – know how to handle API keys and `.env` files  
       (see [`docs/secrets-management.md`](docs/secrets-management.md))
 
 ---

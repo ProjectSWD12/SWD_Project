@@ -116,8 +116,9 @@ A pull request cannot be merged unless this workflow succeeds.
 | Static analysis | flutter analyze, very_good_analysis, riverpod_lint | `.github/workflows/flutter_ci.yml` |
 
 ### User acceptance tests
+All tests are listed in the product backlog.
 
-Document: [docs/quality-assurance/user-acceptance-tests.md](docs/quality-assurance/user-acceptance-tests.md)
+Document: [https://github.com/users/ProjectSWD12/projects/1](https://github.com/users/ProjectSWD12/projects/1)
 
 ---
 

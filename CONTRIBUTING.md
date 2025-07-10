@@ -1,4 +1,4 @@
-# Contributing to Tour Guide Manager
+# Contributing to TourGuide Manager
 
 First off, **thank you** for taking the time to contribute!  
 We welcome pull requests, issues, and feature requests.  

@@ -28,7 +28,7 @@ Captures the behaviour of the system during a single, meaningful scenario (e.g.,
 
 ### Deployment view
 
-![Deployment diagram](docs/architecture/DeploymentView.svg)
+![Deployment diagram](docs/architecture/Deployment.svg)
 
 Describes the runtime topology: which containers/services run on which nodes, what networks and ports connect them, and which cloud resources are involved (DB, queue, CDN, secrets store, etc.). Include redundancy (replicas, zones) and scaling units, so Ops can gauge fault tolerance and cost.
 

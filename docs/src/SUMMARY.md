@@ -3,19 +3,19 @@
 - [Introduction](introduction.md)
 
 # Development
-  - [Git workflow](../.github/workflows)
-  - [Secrets management](../docs/secrets-management.md)
+  - [Git workflow](.github/workflows)
+  - [Secrets management](docs/secrets-management.md)
 
 # Architecture
-  - [Context Diagram](../docs/architecture/architecture.md)
+  - [Context Diagram](docs/architecture/architecture.md)
 
 # Quality Assurance
-  - [Automated tests](../docs/quality-assurance/automated-tests.md)
-  - [User acceptance tests](../docs/quality-assurance/user-acceptance-tests.md)
+  - [Automated tests](docs/quality-assurance/automated-tests.md)
+  - [User acceptance tests](docs/quality-assurance/user-acceptance-tests.md)
 
 # CI / CD
-  - [Continuous Integration](../docs/automation/continuous-integration.md)
-  - [Continuous Delivery](../docs/automation/continuous-delivery.md)
+  - [Continuous Integration](docs/automation/continuous-integration.md)
+  - [Continuous Delivery](docs/automation/continuous-delivery.md)
 
-- [Changelog](../CHANGELOG.md)
-- [License](../LICENSE)
+- [Changelog](CHANGELOG.md)
+- [License](LICENSE)

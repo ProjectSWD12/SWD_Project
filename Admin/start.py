@@ -18,7 +18,7 @@ def start_frontend():
     """Start the React frontend development server"""
     print("Starting React frontend...")
     time.sleep(2)  # Give backend time to start
-    subprocess.run(['npm', 'run', 'dev'], cwd='frontend')
+    subprocess.run('npm run dev', cwd='frontend', shell=True)   
 
 if __name__ == "__main__":
     backend_thread = threading.Thread(target=start_backend)

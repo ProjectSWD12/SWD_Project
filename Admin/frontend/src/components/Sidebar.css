@@ -30,7 +30,8 @@
 }
 
 .create-tour-btn,
-.manage-guides-btn {
+.manage-guides-btn,
+.ban-list-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -54,13 +55,13 @@
   background: #2563eb;
 }
 
-.manage-guides-btn {
+.manage-guides-btn,.ban-list-btn {
   background: #f3f4f6;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
-.manage-guides-btn:hover {
+.manage-guides-btn:hover,.ban-list-btn:hover {
   background: #e5e7eb;
 }
 

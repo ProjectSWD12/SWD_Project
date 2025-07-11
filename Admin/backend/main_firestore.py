@@ -100,16 +100,15 @@ def create_user(user: User):
 @app.get("/users/{user_id}", response_model=UserOut)
 def get_user(user_id: str):
     doc = users_ref.document(user_id).get()
-    data = doc.to_dict()
-    if not data:
+    if not doc.exists:
         raise HTTPException(status_code=404, detail="User not found")
-    return UserOut(id=doc.id, **data)
+    return UserOut(id=doc.id, **doc.to_dict())
 
 
 @app.put("/users/{user_id}", response_model=UserOut)
 def update_user(user_id: str, user: User):
     doc_ref = users_ref.document(user_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="User not found")
     doc_ref.update(user.dict())
     data = doc_ref.get().to_dict()
@@ -119,7 +118,7 @@ def update_user(user_id: str, user: User):
 @app.delete("/users/{user_id}")
 def delete_user(user_id: str):
     doc_ref = users_ref.document(user_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="User not found")
     doc_ref.delete()
     return {"message": "User deleted"}
@@ -142,16 +141,15 @@ def create_excursion(excursion: Excursion):
 @app.get("/excursions/{excursion_id}", response_model=ExcursionOut)
 def get_excursion(excursion_id: str):
     doc = excursions_ref.document(excursion_id).get()
-    data = doc.to_dict()
-    if not data:
+    if not doc.exists:
         raise HTTPException(status_code=404, detail="Excursion not found")
-    return ExcursionOut(id=doc.id, **data)
+    return ExcursionOut(id=doc.id, **doc.to_dict())
 
 
 @app.put("/excursions/{excursion_id}", response_model=ExcursionOut)
 def update_excursion(excursion_id: str, excursion: Excursion):
     doc_ref = excursions_ref.document(excursion_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="Excursion not found")
     doc_ref.update(excursion.dict())
     data = doc_ref.get().to_dict()
@@ -161,7 +159,7 @@ def update_excursion(excursion_id: str, excursion: Excursion):
 @app.delete("/excursions/{excursion_id}")
 def delete_excursion(excursion_id: str):
     doc_ref = excursions_ref.document(excursion_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="Excursion not found")
     doc_ref.delete()
     return {"message": "Excursion deleted"}
@@ -183,16 +181,15 @@ def create_customer(customer: Customer):
 @app.get("/customers/{customer_id}", response_model=CustomerOut)
 def get_customer(customer_id: str):
     doc = customers_ref.document(customer_id).get()
-    data = doc.to_dict()
-    if not data:
+    if not doc.exists:
         raise HTTPException(status_code=404, detail="Customer not found")
-    return CustomerOut(id=doc.id, **data)
+    return CustomerOut(id=doc.id, **doc.to_dict())
 
 
 @app.put("/customers/{customer_id}", response_model=CustomerOut)
 def update_customer(customer_id: str, customer: Customer):
     doc_ref = customers_ref.document(customer_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="Customer not found")
     doc_ref.update(customer.dict())
     data = doc_ref.get().to_dict()
@@ -202,10 +199,14 @@ def update_customer(customer_id: str, customer: Customer):
 @app.delete("/customers/{customer_id}")
 def delete_customer(customer_id: str):
     doc_ref = customers_ref.document(customer_id)
-    if not doc_ref.get().to_dict():
+    if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="Customer not found")
     doc_ref.delete()
     return {"message": "Customer deleted"}
+
+@app.get("/api")  # Важно: должен быть зарегистрирован именно этот путь
+def read_api():
+    return {"message": "Hello from API"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

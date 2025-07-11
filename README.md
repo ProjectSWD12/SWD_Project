@@ -14,6 +14,7 @@ This repository contains the source code and documentation for our MVP releases.
 [![Watch Demo Video](https://img.shields.io/badge/Watch-2 min demo-ff69b4?logo=youtube)](https://youtube.demo.link)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ---
 
 ## 📌 Table of Contents

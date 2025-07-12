@@ -37,7 +37,7 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
     <div className="modal-overlay">
       <div className="modal-content large">
         <div className="modal-header">
-          <h2>Manage Users</h2>
+          <h2>Управление гидами</h2>
           <button onClick={() => onOpenChange(false)} className="close-button">
             <X size={20} />
           </button>
@@ -45,13 +45,13 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
 
         <div className="modal-body">
           <div className="users-section">
-            <h3>Current Users</h3>
+            <h3>Текущие гиды</h3>
             {isLoading ? (
-              <div className="loading">Loading users...</div>
+              <div className="loading">Загружаем гидов...</div>
             ) : (
               <div className="users-list">
                 {users.length === 0 ? (
-                  <p className="no-users">No users found. Add your first user below.</p>
+                  <p className="no-users">Ни одного гида в системе не зарешистрировано. Добавьте первого, заполнив форму</p>
                 ) : (
                   users.map((user: User) => (
                     <div key={user.id} className="user-item">
@@ -70,29 +70,30 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
           </div>
 
           <div className="add-user-section">
-            <h3>Add New User</h3>
+            <h3>Добавить нового гида</h3>
             <form onSubmit={handleSubmit(onSubmit)} className="user-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">ФИО</label>
                   <div className="input-with-icon">
                     <UserIcon size={16} />
-                    <input id="name" {...register('name', { required: 'Name is required' })} />
+                    <input id="name" {...register('name', { required: 'Введите ФИО' })} />
                   </div>
                   {errors.name && <span className="error">{errors.name.message}</span>}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="telegram">Telegram</label>
+                  <label htmlFor="telegram">Телеграм</label>
                   <div className="input-with-icon">
                     <MessageCircle size={16} />
-                    <input id="telegram" {...register('telegram')} placeholder="telegram_username" />
+                    <input id="telegram" {...register('telegram', { required: 'Введите телеграмм контакт гида' })} placeholder="telegram_username" />
                   </div>
+                  {errors.telegram && <span className="error">{errors.telegram.message}</span>}
                 </div>
               </div>
 
               <div className="form-group">
-                <label htmlFor="excursionsDone">Excursions Done</label>
+                <label htmlFor="excursionsDone">Экскурсий проведено</label>
                 <input
                   id="excursionsDone"
                   type="number"
@@ -103,7 +104,7 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
 
               <div className="form-actions">
                 <button type="submit" disabled={createUserMutation.isLoading} className="submit-button">
-                  {createUserMutation.isLoading ? 'Adding...' : 'Add User'}
+                  {createUserMutation.isLoading ? 'Добавляем...' : 'Добавить гида'}
                 </button>
               </div>
             </form>

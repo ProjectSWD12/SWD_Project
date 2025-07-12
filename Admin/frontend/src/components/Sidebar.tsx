@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <h3><BarChart3 size={16} /> {t('statistics')}</h3>
         <div className="stats">
           <div className="stat-item">
-            <span className="stat-label">Total excursions</span>
+            <span className="stat-label">Всего экскурсий</span>
             <span className="stat-value">{stats.totalExcursions}</span>
           </div>
         </div>

@@ -61,7 +61,6 @@ Stakeholders:
 External Systems:
 - Firebase Authentication
 - Firestore Database
-- Telegram Bot API (if used)
 
 📌 Context Diagram:  
 > Stakeholders and external systems at a glance.

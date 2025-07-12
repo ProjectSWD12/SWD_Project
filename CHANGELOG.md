@@ -7,14 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- Reminder: add newest release at the top -->
 
 ## [Unreleased]
-### Added
-- Initial draft of **Unreleased** section to collect upcoming changes.
 
 ---
 
 ## [3.0.0] - 2025-07-21
 ### Added
-- Real-time Notifications
+- Demo day:
+  - Real-time Notifications
 
 ### Changed
 - Interface (colors)
@@ -26,9 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2025-07-14
 ### Added
-- Full Admin Interface
-- Automatic Cleaning of the Database
-- Application Window
+- Second public MVP:
+  - Full Admin Interface
+  - Automatic Cleaning of the Database
+  - Application Window
 
 ### Changed
 - Redesigned profile page for clearer plan information.

@@ -11,10 +11,16 @@ const api = axios.create({
   },
 });
 
-export interface User {
+export interface Guide {
   id: string;
   name: string;
-  telegram: string;
+  avatar: string;
+  bio: string;
+  createdAt: string;
+  email: string;
+  level: string;
+  phone: string;
+  telegramAlias: string;
   excursionsDone: number;
 }
 
@@ -30,23 +36,35 @@ export interface Excursion {
   time: string;
   type: string;
 }
-export interface Customer{
+export interface Company{
     id:string;
+    address: string;
     name: string;
-    telegram: string;
-    banList: Array<User>;
+    createdAt: string;
+    email: string;
+    phone: string;
+    banList: Array<string>;
 }
 
-export interface CreateUserData {
+export interface CreateGuideData {
   name: string;
-  telegram: string;
+  avatar: string;
+  bio: string;
+  createdAt: string;
+  email: string;
+  level: string;
+  phone: string;
+  telegramAlias: string;
   excursionsDone?: number;
 }
 
-export interface CreateCustomerData{
+export interface CreateCompanyData{
+  address: string;
   name: string;
-  telegram: string;
-  banList: Array<User>;
+  createdAt: string;
+  email: string;
+  phone: string;
+  banList: Array<string>;
 }
 
 export interface CreateExcursionData {
@@ -62,29 +80,29 @@ export interface CreateExcursionData {
 }
 
 //Customers
-export const fetchCustomers = async(): Promise<Customer[]> =>{
-  const response = await api.get('/customers');
+export const fetchCompanies = async(): Promise<Company[]> =>{
+  const response = await api.get('/companies');
   return response.data;
 };
 
-export const createCustomer = async (customerData: CreateCustomerData): Promise<Customer> => {
-  const response = await api.post('/customers', customerData);
+export const createCompany = async (companyData: CreateCompanyData): Promise<Company> => {
+  const response = await api.post('/companies', companyData);
   return response.data;
 };
 
-export const fetchCustomer = async(id: string): Promise<Customer> =>{
-  const response = await api.get(`/customers/${id}`);
+export const fetchCompany = async(id: string): Promise<Company> =>{
+  const response = await api.get(`/companies/${id}`);
   return response.data;
 };
 
-// Users
-export const fetchUsers = async (): Promise<User[]> => {
-  const response = await api.get('/users');
+// Guides
+export const fetchGuides = async (): Promise<Guide[]> => {
+  const response = await api.get('/guides');
   return response.data;
 };
 
-export const createUser = async (userData: CreateUserData): Promise<User> => {
-  const response = await api.post('/users', userData);
+export const createGuide = async (guideData: CreateGuideData): Promise<Guide> => {
+  const response = await api.post('/guides', guideData);
   return response.data;
 };
 

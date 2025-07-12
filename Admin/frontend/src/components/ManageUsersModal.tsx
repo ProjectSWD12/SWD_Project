@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient, useQuery } from 'react-query';
 import { X, User as UserIcon, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { createUser, CreateUserData, fetchUsers, User } from '../services/api';
+import { createGuide, CreateGuideData, fetchGuides, Guide } from '../services/api';
 import './ManageUsersModal.css';
 
 interface ManageUsersModalProps {
@@ -16,19 +16,28 @@ interface ManageUsersModalProps {
 const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange }) => {
   const { t } = useLanguage();
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateUserData>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateGuideData>();
 
-  const { data: users = [], isLoading } = useQuery('users', fetchUsers);
+  const { data: users = [], isLoading } = useQuery('guides', fetchGuides);
 
-  const createUserMutation = useMutation(createUser, {
+  const createUserMutation = useMutation(createGuide, {
     onSuccess: () => {
-      queryClient.invalidateQueries('users');
+      queryClient.invalidateQueries('guides');
       reset();
     }
   });
 
-  const onSubmit = (data: CreateUserData) => {
-    createUserMutation.mutate({ ...data, excursionsDone: Number(data.excursionsDone || 0) });
+  const onSubmit = (data: CreateGuideData) => {
+    createUserMutation.mutate({
+      ...data,
+      excursionsDone: Number(data.excursionsDone || 0),
+      avatar: data.avatar || '',
+      bio: data.bio || '',
+      createdAt: data.createdAt || new Date().toISOString(),
+      email: data.email || '',
+      level: data.level || '',
+      phone: data.phone || ''
+    });
   };
 
   if (!open) return null;
@@ -53,13 +62,13 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
                 {users.length === 0 ? (
                   <p className="no-users">Ни одного гида в системе не зарешистрировано. Добавьте первого, заполнив форму</p>
                 ) : (
-                  users.map((user: User) => (
-                    <div key={user.id} className="user-item">
+                  users.map((guide: Guide) => (
+                    <div key={guide.id} className="user-item">
                       <div className="user-info">
-                        <h4>{user.name}</h4>
+                        <h4>{guide.name}</h4>
                         <div className="user-details">
-                          {user.telegram && <span><MessageCircle size={14} /> @{user.telegram}</span>}
-                          <span className="excursions-done">{user.excursionsDone} excursions</span>
+                          {guide.telegramAlias && <span><MessageCircle size={14} /> @{guide.telegramAlias}</span>}
+                          <span className="excursions-done">{guide.excursionsDone} excursions</span>
                         </div>
                       </div>
                     </div>
@@ -86,9 +95,9 @@ const ManageUsersModal: React.FC<ManageUsersModalProps> = ({ open, onOpenChange 
                   <label htmlFor="telegram">Телеграм</label>
                   <div className="input-with-icon">
                     <MessageCircle size={16} />
-                    <input id="telegram" {...register('telegram', { required: 'Введите телеграмм контакт гида' })} placeholder="telegram_username" />
+                    <input id="telegramAlias" {...register('telegramAlias', { required: 'Введите телеграмм контакт гида' })} placeholder="telegram_username" />
                   </div>
-                  {errors.telegram && <span className="error">{errors.telegram.message}</span>}
+                  {errors.telegramAlias && <span className="error">{errors.telegramAlias.message}</span>}
                 </div>
               </div>
 

@@ -45,8 +45,8 @@ app.add_middleware(
 )
 
 excursions_ref = db.collection("excursions")
-users_ref = db.collection("users")
-customers_ref = db.collection("customers")
+guides_ref = db.collection("guides")
+companies_ref = db.collection("companies")
 
 
 class Excursion(BaseModel):
@@ -61,17 +61,26 @@ class Excursion(BaseModel):
     type: str
 
 
-class User(BaseModel):
+class Guide(BaseModel):
     name: str
-    telegram: str
+    avatar: str
+    bio: str
+    createdAt: str
+    email: str
+    level: str
+    phone: str
+    telegramAlias: str
     excursionsDone: int
 
-class Customer(BaseModel):
+class Company(BaseModel):
+    address: str
     name: str
-    telegram: str
-    banList: list
+    createdAt: str
+    email: str
+    phone: str
+    banList: list[str]
 
-class CustomerOut(Customer):
+class CompanyOut(Company):
     id:str
 
 
@@ -79,49 +88,49 @@ class ExcursionOut(Excursion):
     id: str
 
 
-class UserOut(User):
+class GuideOut(Guide):
     id: str
 
 
-@app.get("/users", response_model=List[UserOut])
-def list_users():
-    docs = users_ref.stream()
-    return [UserOut(id=doc.id, **doc.to_dict()) for doc in docs]
+@app.get("/guides", response_model=List[GuideOut])
+def list_guides():
+    docs = guides_ref.stream()
+    return [GuideOut(id=doc.id, **doc.to_dict()) for doc in docs]
 
 
-@app.post("/users", response_model=UserOut)
-def create_user(user: User):
-    data = user.dict()
-    doc_ref = users_ref.document()
+@app.post("/guides", response_model=GuideOut)
+def create_guide(guide: Guide):
+    data = guide.dict()
+    doc_ref = guides_ref.document()
     doc_ref.set(data)
-    return UserOut(id=doc_ref.id, **data)
+    return GuideOut(id=doc_ref.id, **data)
 
 
-@app.get("/users/{user_id}", response_model=UserOut)
-def get_user(user_id: str):
-    doc = users_ref.document(user_id).get()
+@app.get("/guides/{guide_id}", response_model=GuideOut)
+def get_guide(guide_id: str):
+    doc = guides_ref.document(guide_id).get()
     if not doc.exists:
-        raise HTTPException(status_code=404, detail="User not found")
-    return UserOut(id=doc.id, **doc.to_dict())
+        raise HTTPException(status_code=404, detail="Guide not found")
+    return GuideOut(id=doc.id, **doc.to_dict())
 
 
-@app.put("/users/{user_id}", response_model=UserOut)
-def update_user(user_id: str, user: User):
-    doc_ref = users_ref.document(user_id)
+@app.put("/guides/{guide_id}", response_model=GuideOut)
+def update_guide(guide_id: str, guide: Guide):
+    doc_ref = guides_ref.document(guide_id)
     if not doc_ref.get().exists:
-        raise HTTPException(status_code=404, detail="User not found")
-    doc_ref.update(user.dict())
+        raise HTTPException(status_code=404, detail="Guide not found")
+    doc_ref.update(guide.dict())
     data = doc_ref.get().to_dict()
-    return UserOut(id=doc_ref.id, **data)
+    return GuideOut(id=doc_ref.id, **data)
 
 
-@app.delete("/users/{user_id}")
-def delete_user(user_id: str):
-    doc_ref = users_ref.document(user_id)
+@app.delete("/guides/{guide_id}")
+def delete_guide(guide_id: str):
+    doc_ref = guides_ref.document(guide_id)
     if not doc_ref.get().exists:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Guide not found")
     doc_ref.delete()
-    return {"message": "User deleted"}
+    return {"message": "Guide deleted"}
 
 
 @app.get("/excursions", response_model=List[ExcursionOut])
@@ -164,45 +173,45 @@ def delete_excursion(excursion_id: str):
     doc_ref.delete()
     return {"message": "Excursion deleted"}
 
-@app.get("/customers", response_model=List[CustomerOut])
-def list_customers():
-    docs = customers_ref.stream()
-    return [CustomerOut(id=doc.id, **doc.to_dict()) for doc in docs]
+@app.get("/companies", response_model=List[CompanyOut])
+def list_companies():
+    docs = companies_ref.stream()
+    return [CompanyOut(id=doc.id, **doc.to_dict()) for doc in docs]
 
 
-@app.post("/customers", response_model=CustomerOut)
-def create_customer(customer: Customer):
-    data = customer.dict()
-    doc_ref = customers_ref.document()
+@app.post("/companies", response_model=CompanyOut)
+def create_company(company: Company):
+    data = company.dict()
+    doc_ref = companies_ref.document()
     doc_ref.set(data)
-    return CustomerOut(id=doc_ref.id, **data)
+    return CompanyOut(id=doc_ref.id, **data)
 
 
-@app.get("/customers/{customer_id}", response_model=CustomerOut)
-def get_customer(customer_id: str):
-    doc = customers_ref.document(customer_id).get()
+@app.get("/companies/{company_id}", response_model=CompanyOut)
+def get_company(company_id: str):
+    doc = companies_ref.document(company_id).get()
     if not doc.exists:
-        raise HTTPException(status_code=404, detail="Customer not found")
-    return CustomerOut(id=doc.id, **doc.to_dict())
+        raise HTTPException(status_code=404, detail="Company not found")
+    return CompanyOut(id=doc.id, **doc.to_dict())
 
 
-@app.put("/customers/{customer_id}", response_model=CustomerOut)
-def update_customer(customer_id: str, customer: Customer):
-    doc_ref = customers_ref.document(customer_id)
+@app.put("/companies/{company_id}", response_model=CompanyOut)
+def update_company(company_id: str, company: Company):
+    doc_ref = companies_ref.document(company_id)
     if not doc_ref.get().exists:
-        raise HTTPException(status_code=404, detail="Customer not found")
-    doc_ref.update(customer.dict())
+        raise HTTPException(status_code=404, detail="Company not found")
+    doc_ref.update(company.dict())
     data = doc_ref.get().to_dict()
-    return CustomerOut(id=doc_ref.id, **data)
+    return CompanyOut(id=doc_ref.id, **data)
 
 
-@app.delete("/customers/{customer_id}")
-def delete_customer(customer_id: str):
-    doc_ref = customers_ref.document(customer_id)
+@app.delete("/companies/{company_id}")
+def delete_company(company_id: str):
+    doc_ref = companies_ref.document(company_id)
     if not doc_ref.get().exists:
-        raise HTTPException(status_code=404, detail="Customer not found")
+        raise HTTPException(status_code=404, detail="Company not found")
     doc_ref.delete()
-    return {"message": "Customer deleted"}
+    return {"message": "Company deleted"}
 
 @app.get("/api")  # Важно: должен быть зарегистрирован именно этот путь
 def read_api():

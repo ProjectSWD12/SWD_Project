@@ -7,7 +7,7 @@ import CreateExcursionModal from '../components/CreateExcursionModal';
 import ManageUsersModal from '../components/ManageUsersModal';
 import Sidebar from '../components/Sidebar';
 import { useLanguage } from '../contexts/LanguageContext';
-import { fetchExcursions, fetchUsers, Excursion } from '../services/api';
+import { fetchExcursions, fetchGuides, Excursion } from '../services/api';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -26,7 +26,7 @@ export default function Dashboard() {
     { refetchInterval: 30000 }
   );
 
-  const { data: users = [] } = useQuery('users', fetchUsers);
+  const { data: users = [] } = useQuery('guides', fetchGuides);
 
   const stats = {
     totalExcursions: excursions.length

@@ -4,9 +4,15 @@ use_directory_urls: true
 
 theme:
   name: material
+  palette:
+    scheme: slate
 
 nav:
   - Home: README.md
+  - Project Overview:
+      - Changelog: ../CHANGELOG.md
+      - License: ../LICENSE
+      - About the Project: README.md
   - Documentation:
       - Secrets Management: secrets-management.md
       - Architecture:
@@ -14,7 +20,9 @@ nav:
       - Automation:
           - Continuous Integration: automation/continuous-integration.md
           - Continuous Delivery: automation/continuous-delivery.md
+      - Quality Attributes:
+          - Attribute Scenarios: quality-attributes/quality-attribute-scenarios.md
       - Quality Assurance:
-          - QA Scenarios: quality-assurance/quality-assurance-scenarios.md
+          - QA Scenarios: quality-assurance/quality-attribute-scenarios.md
           - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
           - Automated Tests: quality-assurance/automated-tests.md

@@ -4,7 +4,7 @@ Our project regularly undergoes User Acceptance Testing to ensure that it meets 
 
 ## UAT Procedure
 
-1. Define test scenarios based on user stories.
+1. Define test scenarios based on user stories (available via the link: https://github.com/users/ProjectSWD12/projects/1).
 2. Involve actual users (tour guides, admins).
 3. Perform tests on staging or production environments.
 4. Collect and document feedback.

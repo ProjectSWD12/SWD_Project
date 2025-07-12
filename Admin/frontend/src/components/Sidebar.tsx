@@ -1,7 +1,7 @@
 // Sidebar.tsx
 // Sidebar with stats and actions.
 import React from 'react';
-import { Calendar, Plus, Users, BarChart3 } from 'lucide-react';
+import { Calendar, Plus, Users, BarChart3, BanIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import './Sidebar.css';
 
@@ -15,6 +15,7 @@ interface SidebarProps {
   };
   onCreateExcursion: () => void;
   onManageUsers: () => void;
+  onBanList:() => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -24,7 +25,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   onViewModeChange,
   stats,
   onCreateExcursion,
-  onManageUsers
+  onManageUsers,
+  onBanList
 }) => {
   const { t } = useLanguage();
   return (
@@ -37,6 +39,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         <button onClick={onCreateExcursion} className="create-tour-btn">
           <Plus size={16} />
           {t('create_excursion')}
+        </button>
+
+        <button onClick={onBanList} className="ban-list-btn">
+          <BanIcon size={16} />
+          {t('ban_list')}
         </button>
 
         <button onClick={onManageUsers} className="manage-guides-btn">
@@ -74,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <h3><BarChart3 size={16} /> {t('statistics')}</h3>
         <div className="stats">
           <div className="stat-item">
-            <span className="stat-label">Total excursions</span>
+            <span className="stat-label">Всего экскурсий</span>
             <span className="stat-value">{stats.totalExcursions}</span>
           </div>
         </div>

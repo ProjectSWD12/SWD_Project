@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [selectedExcursion, setSelectedExcursion] = useState<Excursion | null>(null);
   const [createExcursionOpen, setCreateExcursionOpen] = useState(false);
   const [manageUsersOpen, setManageUsersOpen] = useState(false);
+  const [BanListOpen,setBanListOpen]=useState(false)
 
   const { data: excursions = [], isLoading: excursionsLoading } = useQuery(
     'excursions',
@@ -48,6 +49,7 @@ export default function Dashboard() {
           stats={stats}
           onCreateExcursion={() => setCreateExcursionOpen(true)}
           onManageUsers={() => setManageUsersOpen(true)}
+          onBanList={()=>setBanListOpen(true)}
         />
 
         <main className="main-content">
@@ -71,6 +73,11 @@ export default function Dashboard() {
         open={manageUsersOpen}
         onOpenChange={setManageUsersOpen}
       />
+
+      {/* <BanListModal
+        open={BanListOpen}
+        onOpenChange={setBanListOpen}
+      /> */}
     </div>
   );
 }

@@ -37,7 +37,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   if (isLoading) {
     return (
       <div className="calendar-grid loading">
-        <div className="loading-spinner">Loading excursions...</div>
+        <div className="loading-spinner">Загружаем экскурсии...</div>
       </div>
     );
   }
@@ -51,7 +51,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       </div>
 
       <div className="calendar-weekdays">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+        {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map(day => (
           <div key={day} className="weekday">{day}</div>
         ))}
       </div>

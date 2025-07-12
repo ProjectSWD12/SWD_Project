@@ -87,6 +87,7 @@ const translations = {
     
     // View Mode
     'view_mode': 'Режим просмотра',
+    'ban_list': 'Бан лист',
   }
 };
 

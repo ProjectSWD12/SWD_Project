@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0',
+    allowedHosts: [  // ← Добавьте этот блок
+      'tourappmanager.ru',
+      'api.tourappmanager.ru',
+      'localhost'  // Для локальной разработки
+    ],
     proxy: {
       '/api': {
         target: 'http://localhost:8000',

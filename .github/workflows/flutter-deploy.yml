@@ -1,0 +1,24 @@
+name: Deploy Admin to Vercel
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy_admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Admin dependencies
+        run: npm ci
+
+      - name: Build Admin web app
+        run: npm run build
+
+      - name: Deploy to Vercel
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}

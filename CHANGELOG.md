@@ -41,8 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Redesigned profile page for clearer plan information.
-
-### Fixed
 - website scaling
 
 ---

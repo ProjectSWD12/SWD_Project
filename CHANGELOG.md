@@ -19,12 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.0] - 2025-07-14
+## [2.5.0] - 2025-07-14
 ### Added
 - Second public MVP:
-  - Full Admin Interface
+  - Excursions applications in guides app
+  - The ability to adding excursions in Admin Interface
+  - The ability to managing guides in Admin Interface
+  - The ability to managing companies in Admin Interface
+  - The ability to managing blacklist in Admin Interface
+    
+### Changed
+- Raw -> Full Admin Interface
+
+---
+
+## [2.0.0] - 2025-07-07
+### Added
+- Second public MVP:
+  - Raw Admin Interface
   - Automatic Cleaning of the Database
-  - Application Window
 
 ### Changed
 - Redesigned profile page for clearer plan information.

@@ -9,3 +9,12 @@ nav:
   - Home: README.md
   - Documentation:
       - Secrets Management: secrets-management.md
+      - Architecture:
+          - Overview: architecture/architecture.md
+      - Automation:
+          - Continuous Integration: automation/continuous-integration.md
+          - Continuous Delivery: automation/continuous-delivery.md
+      - Quality Assurance:
+          - QA Scenarios: quality-assurance/quality-assurance-scenarios.md
+          - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
+          - Automated Tests: quality-assurance/automated-tests.md

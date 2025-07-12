@@ -10,8 +10,8 @@ theme:
 nav:
   - Home: README.md
   - Project Overview:
-      - Changelog: ../CHANGELOG.md
-      - License: ../LICENSE
+      - Changelog: CHANGELOG.md
+      - License: LICENSE.md
       - About the Project: README.md
   - Documentation:
       - Secrets Management: secrets-management.md
@@ -23,6 +23,5 @@ nav:
       - Quality Attributes:
           - Attribute Scenarios: quality-attributes/quality-attribute-scenarios.md
       - Quality Assurance:
-          - QA Scenarios: quality-assurance/quality-attribute-scenarios.md
           - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
           - Automated Tests: quality-assurance/automated-tests.md

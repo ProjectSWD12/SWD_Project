@@ -1,6 +1,7 @@
 site_name: SWD Project Documentation
 site_url: https://projectswd12.github.io/SWD_Project/
 use_directory_urls: true
+
 theme:
   name: material
 

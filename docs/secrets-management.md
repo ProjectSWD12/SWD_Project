@@ -1,12 +1,18 @@
 # Secrets Management
 
-## Environment Variables
-- Store secrets in `.env` (never commit it)
-- Example keys: `API_KEY`, `FIREBASE_URL`
+This project uses GitHub Secrets to securely store sensitive data like API keys and tokens.
 
-## GitHub Actions
-- Use GitHub Secrets for CI/CD
+## Secrets used:
 
-## Best Practices
-- Rotate keys regularly
-- Never hard-code credentials
+| Secret Name               | Description                             | Usage Location                      |
+|---------------------------|-----------------------------------------|-------------------------------------|
+| `FIREBASE_API_KEY`        | API Key for Firebase API access         | GitHub Actions and project code     |
+| `FIREBASE_SERVICE_ACCOUNT`| Firebase service account JSON           | GitHub Actions deployment           |
+| `TELEGRAM_BOT_TOKEN`      | Telegram bot token (optional)           | Telegram bot and GitHub Actions     |
+
+## Example usage in GitHub Actions:
+
+```yaml
+env:
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

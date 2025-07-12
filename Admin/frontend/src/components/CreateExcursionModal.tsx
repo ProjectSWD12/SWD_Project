@@ -91,6 +91,32 @@ const CreateExcursionModal: React.FC<CreateExcursionModalProps> = ({ open, onOpe
               </label>
             </div>
           </div>
+          <div className="select_level">
+            <h3>Выберите гидов какого уровня уведомить</h3>
+            <div className="form-row">
+              <div className="form-group checkbox">
+                <label>
+                  <input type="checkbox" {...register('lunch')} /> Стажер
+                </label>
+              </div>
+              <div className="form-group checkbox">
+                <label>
+                  <input type="checkbox" {...register('lunch')} /> Джуниор
+                </label>
+              </div>
+              <div className="form-group checkbox">
+                <label>
+                  <input type="checkbox" {...register('masterClass')} /> Миддл
+                </label>
+              </div>
+              <div className="form-group checkbox">
+                <label>
+                  <input type="checkbox" {...register('lunch')} /> Сеньор
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div className="form-actions">
             <button type="button" onClick={() => onOpenChange(false)} className="cancel-button">Отмена</button>
             <button type="submit" disabled={createExcursionMutation.isLoading} className="submit-button">

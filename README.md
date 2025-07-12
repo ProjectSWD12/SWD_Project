@@ -51,7 +51,9 @@ Stakeholders:
 
 | Participant      | Role            | GitHub Link                       |
 |---------------|-----------------|----------------------------------------|
-| Aleksey Chegaev   | Team Lead, Configure Database    | [github.com/wyroxx](https://github.com/wyroxx) |
+| Aleksey Chegaev   | Team Lead, Configure Database    | <a href="https://github.com/wyroxx">
+        <img src="https://github.com/wyroxx.png" width="80" height="80" style="border-radius: 50%;" /><br />
+      </a> |
 | Aleksandr Medvedev | Flutter Developer     | [github.com/BearAx](https://github.com/BearAx) |
 | Nikita Shankin    | Flutter Developer     | [github.com/Mysteri0K1ng](https://github.com/Mysteri0K1ng) |
 | Georgii Beliaev | Web-Developer    | [github.com/JoraXD](https://github.com/JoraXD) |

@@ -1,17 +1,19 @@
 site_name: SWD Project Documentation
+site_url: https://projectswd12.github.io/SWD_Project/
+use_directory_urls: true
 theme:
   name: material
 
 nav:
   - Home: README.md
   - Documentation:
-      - Secrets Management: docs/secrets-management.md
+      - Secrets Management: secrets-management.md
       - Architecture:
-          - Overview: docs/architecture/architecture.md
+          - Overview: architecture/architecture.md
       - Automation:
-          - Continuous Integration: docs/automation/continuous-integration.md
-          - Continuous Delivery: docs/automation/continuous-delivery.md
+          - Continuous Integration: automation/continuous-integration.md
+          - Continuous Delivery: automation/continuous-delivery.md
       - Quality Assurance:
-          - QA Scenarios: docs/quality-assurance/quality-attribute-scenarios.md
-          - User Acceptance Tests: docs/quality-assurance/user-acceptance-tests.md
-          - Automated Tests: docs/quality-assurance/automated-tests.md
+          - QA Scenarios: quality-assurance/quality-assurance-scenarios.md
+          - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
+          - Automated Tests: quality-assurance/automated-tests.md

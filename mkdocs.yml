@@ -1,0 +1,17 @@
+site_name: SWD Project Documentation
+theme:
+  name: material
+
+nav:
+  - Home: README.md
+  - Documentation:
+      - Secrets Management: docs/secrets-management.md
+      - Architecture:
+          - Overview: docs/architecture/architecture.md
+      - Automation:
+          - Continuous Integration: docs/automation/continuous-integration.md
+          - Continuous Delivery: docs/automation/continuous-delivery.md
+      - Quality Assurance:
+          - QA Scenarios: docs/quality-assurance/quality-attribute-scenarios.md
+          - User Acceptance Tests: docs/quality-assurance/user-acceptance-tests.md
+          - Automated Tests: docs/quality-assurance/automated-tests.md

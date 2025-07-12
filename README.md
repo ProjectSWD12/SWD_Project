@@ -6,7 +6,7 @@
 A software development project for Innopolis University.  
 This repository contains the source code and documentation for our MVP releases.
 
-![Documentation (Website)](https://projectswd12.github.io/SWD_Project/)) 
+[Documentation (Website)](https://projectswd12.github.io/SWD_Project/)
 
 ## 📍 Live Demo  
 [👉 Deployed Version]

@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Raw -> Full Admin Interface
 
+### Fixed
+- Inability to log out of the profile after switching Screens for some time
+- Optimized the code
+
 ---
 
 ## [2.0.0] - 2025-07-07

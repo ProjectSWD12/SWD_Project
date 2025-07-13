@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -13,7 +14,9 @@ class Profile extends StatelessWidget {
     if (currentUser == null) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Профиль'),
+          title: const Text('Профиль',
+          style: TextStyle(fontWeight: FontWeight.w600),
+          ),
           backgroundColor: const Color(0xffE6F2FF),
           centerTitle: true,
         ),
@@ -26,60 +29,58 @@ class Profile extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Профиль'),
+        title: const Text('Профиль',
+        style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: const Color(0xffE6F2FF),
         centerTitle: true,
       ),
       backgroundColor: const Color(0xffE6F2FF),
-      body: StreamBuilder<DocumentSnapshot>(
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
+            .collection('guides')
+            .where('email', isEqualTo: email)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-
-          if (!snapshot.hasData ||
-              !snapshot.data!.exists ||
-              snapshot.data!.data() == null) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
-                  CircleAvatar(
-                    backgroundColor: const Color(0xffFFFDFD),
-                    radius: 60,
-                    child: const Icon(
-                      Icons.person_rounded,
-                      size: 92,
-                      color: Color(0x88070303),
-                    ),
+                  const Spacer(),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/empty_profile.svg',
+                        width: 300,
+                        height: 300,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Пользователь',
-                    style: TextStyle(fontSize: 24),
+                    'Тут пока ничего нет',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    email,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 10),
                   const Text(
-                    'Экскурсий проведено: 0',
-                    style: TextStyle(fontSize: 18),
+                    'Информация появится, когда админ добавит её',
+                    style: const TextStyle(fontSize: 15, color: Colors.grey),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: TextButton(
                       onPressed: () => FirebaseAuth.instance.signOut(),
-                      child: const Text('Выйти из аккаунта', style: TextStyle(color: Color(0xffbf0404)),),
+                      child: const Text('Выйти из аккаунта', style: TextStyle(color: Color(
+                          0xff005BFF)),),
                     ),
                   ),
                 ],
@@ -87,18 +88,24 @@ class Profile extends StatelessWidget {
             );
           }
           // Safe cast with null check
-          final userData = snapshot.data!.data() as Map<String, dynamic>? ?? {};
+          final doc = snapshot.data!.docs.first;
+          final userData = doc.data() as Map<String, dynamic>;
           final user = UserProfile.fromFirestore(userData);
 
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
-                CircleAvatar(
-                  backgroundColor: const Color(0xffFFFDFD),
-                  radius: 60,
-                  child: const Icon(Icons.person_rounded, size: 92, color: Color(0x88070303),),
+                const Spacer(),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/avatar.svg',
+                      width: 150,
+                      height: 150,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -111,18 +118,48 @@ class Profile extends StatelessWidget {
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  'Экскурсий проведено: ${user.excursionsDone}',
-                  style: const TextStyle(fontSize: 18),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      const BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '@${user.telegramAlias}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      const Divider(),
+                      Text(
+                        'Экскурсий проведено: ${user.excursionsDone}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      const Divider(),
+                      Text(
+                        '${user.phone}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: TextButton(
                     onPressed: () => FirebaseAuth.instance.signOut(),
                     child: const Text(
                       'Выйти из аккаунта',
-                      style: TextStyle(color: Color(0xffbf0404))),
+                      style: TextStyle(color: Color(0xff005BFF))),
                   ),
                 ),
               ],
@@ -136,17 +173,23 @@ class Profile extends StatelessWidget {
 
 class UserProfile {
   final String name;
-  final int excursionsDone; // Changed to int
+  final int excursionsDone;
+  final String telegramAlias;
+  final String phone;
 
   UserProfile({
     required this.name,
     required this.excursionsDone,
+    required this.telegramAlias,
+    required this.phone
   });
 
   factory UserProfile.fromFirestore(Map<String, dynamic> data) {
     return UserProfile(
       name: data['name']?.toString() ?? 'Имя не указано',
       excursionsDone: (data['excursionsDone'] as int?) ?? 0,
+      telegramAlias: data['telegramAlias']?.toString() ?? 'Telegram не указан',
+      phone: data['phone']?.toString() ?? 'Номер телефона не указан'
     );
   }
 }

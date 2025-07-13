@@ -56,3 +56,5 @@ flutter:
     - assets/calendar.svg
     - assets/profile.svg
     - assets/splash.png
+    - assets/avatar.svg
+    - assets/empty_profile.svg

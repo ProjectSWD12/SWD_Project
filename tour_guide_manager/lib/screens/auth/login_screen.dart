@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tour_guide_manager/colors.dart';
-import 'registration_screen.dart';
 import 'package:tour_guide_manager/widgets/top_snack_bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -191,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 48,
               child: TextField(
-                autofocus: true,
                 controller: emailController,
                 cursorColor: AppColors.darkBlue,
                 style: const TextStyle(fontSize: 17),

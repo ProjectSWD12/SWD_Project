@@ -187,17 +187,18 @@ class _CalendarState extends State<Calendar> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 40),
+                const Spacer(),
                 SvgPicture.asset(
-                  'assets/no_data.svg',
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.33,
+                  message == 'Ошибка загрузки' ? 'assets/error.svg' : 'assets/no_data.svg',
+                  height: MediaQuery.of(context).size.height * (message == 'Ошибка загрузки' ? 0.27 : 0.35),
+                  fit: BoxFit.contain,
                 ),
+                const SizedBox(height: 16),
                 Text(
                   message,
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-                const SizedBox(height: 60),
+                const Spacer(),
               ],
             ) :
             ListView.separated(

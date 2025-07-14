@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tour_guide_manager/colors.dart';
 import '../widgets/top_snack_bar.dart';
 
@@ -24,7 +25,7 @@ class _ApplicationsState extends State<Applications> {
   Future<void> _loadCustomers() async {
     final firestore = FirebaseFirestore.instance;
     final userEmail = FirebaseAuth.instance.currentUser!.email!;
-    final snapshot = await firestore.collection('customers').get();
+    final snapshot = await firestore.collection('companies').get();
 
     final List<String> parsedCustomers = [];
     for (var doc in snapshot.docs) {
@@ -89,7 +90,10 @@ class _ApplicationsState extends State<Applications> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text('Заявки', style: TextStyle(fontWeight: FontWeight.w600)),
+        title: const Text(
+          'Заявки',
+          style: TextStyle(fontWeight: FontWeight.w600)
+        ),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -101,54 +105,81 @@ class _ApplicationsState extends State<Applications> {
             );
           }
           if (snapshot.hasError) {
-            return const Center(
-              child: Text(
-                'Ошибка загрузки',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500
-                ),
-              )
-            );
-          }
-          if (snapshot.hasData) {
-            final List<ApplicationModel> applications = [];
-            for (var doc in snapshot.data!.docs) {
-              final data = doc.data() as Map<String, dynamic>;
-              if (!excludedCustomers.contains(data['customer'] ?? '')) {
-                applications.add(
-                  ApplicationModel(
-                    data['date'],
-                    data['time'],
-                    data['type'],
-                    data['people'],
-                    doc.id,
-                  )
-                );
-              }
-            }
-            return ListView.separated(
-              itemBuilder: (context, index) {
-                final model = applications[index];
-                return ApplicationCard(
-                  model: model,
-                  onAccept: () => _acceptApplication(context, model.docId)
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemCount: applications.length
-            );
-          }
-          return const Center(
-            child: Text(
-              'Нет заявок',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  SvgPicture.asset(
+                    'assets/error.svg',
+                    height: MediaQuery.of(context).size.height * 0.27,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Ошибка загрузки',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
+                    ),
+                  ),
+                  const Spacer(),
+                ],
               ),
-            ),
+            );
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  SvgPicture.asset(
+                    'assets/no_applications.svg',
+                    height: MediaQuery.of(context).size.height * 0.27,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Нет заявок',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            );
+          }
+
+          final List<ApplicationModel> applications = [];
+          for (var doc in snapshot.data!.docs) {
+            final data = doc.data() as Map<String, dynamic>;
+            if (!excludedCustomers.contains(data['customer'] ?? '')) {
+              applications.add(
+                ApplicationModel(
+                  data['date'],
+                  data['time'],
+                  data['type'],
+                  data['people'],
+                  doc.id,
+                )
+              );
+            }
+          }
+          return ListView.separated(
+            itemBuilder: (context, index) {
+              final model = applications[index];
+              return ApplicationCard(
+                model: model,
+                onAccept: () => _acceptApplication(context, model.docId)
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemCount: applications.length
           );
-        },
+        }
       ),
     );
   }
@@ -207,7 +238,6 @@ class ApplicationCard extends StatelessWidget {
     );
   }
 }
-
 
 class ApplicationModel {
   final String date;

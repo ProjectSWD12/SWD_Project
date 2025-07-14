@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/applications.dart';
 import 'screens/auth/registration_screen.dart';
 import 'screens/home_screen.dart';
-import 'screens/profile.dart';
-import 'screens/calendar.dart';
 import 'screens/auth/login_screen.dart';
 import 'firebase_options.dart';
 import 'colors.dart';
@@ -31,10 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegistrationScreen(),
-        '/profile': (context) => const Profile(),
-        '/calendar': (context) => const Calendar(),
         '/auth': (context) => const AuthGate(),
-        '/applications': (context) => const Applications()
       },
     );
   }

@@ -16,16 +16,12 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final nameController = TextEditingController();
-  final telegramController = TextEditingController();
   bool isLoading = false;
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    nameController.dispose();
-    telegramController.dispose();
     super.dispose();
   }
 
@@ -36,8 +32,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     try {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
-      final tg = telegramController.text.trim();
-      final name = nameController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
         setState(() {
@@ -47,41 +41,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         return;
       }
 
-      if (name.isEmpty) {
-        setState(() {
-          isLoading = false;
-        });
-        showTopSnackBar(context, 'Введите имя');
-        return;
-      }
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      );
 
-      if (tg.isEmpty) {
-        setState(() {
-          isLoading = false;
-        });
-        showTopSnackBar(context, 'Введите telegram');
-        return;
-      }
-
-      if (!tg.contains('@')) {
-        setState(() {
-          isLoading = false;
-        });
-        showTopSnackBar(context, 'Telegram не формата @username');
-        return;
-      }
-
-      final userCred = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCred.user!.uid)
-          .set({
-        'telegram': tg,
-        'excursionsDone': 0,
-        'name': name,
-      });
 
       if (mounted) {
         Navigator.pushNamedAndRemoveUntil(
@@ -165,46 +129,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   hintText: 'Пароль',
-                  hintStyle: const TextStyle(color: AppColors.grey),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 48,
-              child: TextField(
-                controller: nameController,
-                cursorColor: AppColors.darkBlue,
-                style: const TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Имя и фамилия',
-                  hintStyle: const TextStyle(color: AppColors.grey),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 48,
-              child: TextField(
-                controller: telegramController,
-                cursorColor: AppColors.darkBlue,
-                style: const TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Telegram',
                   hintStyle: const TextStyle(color: AppColors.grey),
                   filled: true,
                   fillColor: Colors.white,

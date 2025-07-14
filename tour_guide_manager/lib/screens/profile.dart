@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tour_guide_manager/colors.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -9,33 +10,18 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
-    final userId = currentUser?.uid;
-
-    if (currentUser == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Профиль',
-          style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: const Color(0xffE6F2FF),
-          centerTitle: true,
-        ),
-        backgroundColor: const Color(0xffE6F2FF),
-        body: const Center(child: Text('Пользователь не авторизован')),
-      );
-    }
-
-    final email = currentUser.email ?? 'Email не указан';
+    final String email = currentUser!.email!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Профиль',
-        style: TextStyle(fontWeight: FontWeight.w600),
+        title: const Text(
+          'Профиль',
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: const Color(0xffE6F2FF),
+        backgroundColor: AppColors.background,
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xffE6F2FF),
+      backgroundColor: AppColors.background,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('guides')
@@ -43,51 +29,81 @@ class Profile extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.darkBlue)
+            );
           }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          if (snapshot.hasError) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/empty_profile.svg',
-                        width: 300,
-                        height: 300,
-                      ),
-                    ],
+                  SvgPicture.asset(
+                    'assets/error.svg',
+                    height: MediaQuery.of(context).size.height * 0.27,
+                    fit: BoxFit.contain,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   const Text(
-                    'Тут пока ничего нет',
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                    'Ошибка загрузки',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
                     ),
-                  ),
-                  const Text(
-                    'Информация появится, когда админ добавит её',
-                    style: const TextStyle(fontSize: 15, color: Colors.grey),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: TextButton(
-                      onPressed: () => FirebaseAuth.instance.signOut(),
-                      child: const Text('Выйти из аккаунта', style: TextStyle(color: Color(
-                          0xff005BFF)),),
-                    ),
-                  ),
                 ],
               ),
             );
           }
-          // Safe cast with null check
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24, vertical: 16
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    SvgPicture.asset(
+                      'assets/empty_profile.svg',
+                      height: MediaQuery.of(context).size.height * 0.285,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Тут пока ничего нет',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Text(
+                      'Информация появится, когда админ добавит её',
+                      style: const TextStyle(fontSize: 17, color: AppColors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () => FirebaseAuth.instance.signOut(),
+                      child: const Text(
+                        'Выйти из аккаунта',
+                        style: TextStyle(
+                          color: AppColors.darkBlue,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
           final doc = snapshot.data!.docs.first;
           final userData = doc.data() as Map<String, dynamic>;
           final user = UserProfile.fromFirestore(userData);
@@ -97,69 +113,85 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/avatar.svg',
-                      width: 150,
-                      height: 150,
-                    ),
-                  ],
+                SvgPicture.asset(
+                  'assets/avatar.svg',
+                  height: MediaQuery.of(context).size.height * 0.17,
+                  fit: BoxFit.contain,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 8),
                 Text(
                   user.name,
-                  style: const TextStyle(fontSize: 24),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500
+                  ),
                 ),
-                const SizedBox(height: 10),
                 Text(
                   email,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: AppColors.grey
+                  ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      const BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '@${user.telegramAlias}',
-                        style: const TextStyle(fontSize: 18),
+                        'Уровень: ${user.level}',
+                        style: const TextStyle(
+                            fontSize: 17,
+                            color: AppColors.grey
+                        ),
                       ),
                       const Divider(),
                       Text(
                         'Экскурсий проведено: ${user.excursionsDone}',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                          fontSize: 17,
+                          color: AppColors.grey
+                        ),
                       ),
                       const Divider(),
                       Text(
                         '${user.phone}',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                          fontSize: 17,
+                          color: AppColors.grey
+                        ),
+                      ),
+                      const Divider(),
+                      Text(
+                        user.telegramAlias.contains('@')
+                            ? '${user.telegramAlias}' : '@${user.telegramAlias}',
+                        style: const TextStyle(
+                            fontSize: 17,
+                            color: AppColors.grey
+                        ),
                       ),
                     ],
                   ),
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(16),
                   child: TextButton(
                     onPressed: () => FirebaseAuth.instance.signOut(),
                     child: const Text(
                       'Выйти из аккаунта',
-                      style: TextStyle(color: Color(0xff005BFF))),
+                      style: TextStyle(
+                        color: AppColors.darkBlue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -176,20 +208,23 @@ class UserProfile {
   final int excursionsDone;
   final String telegramAlias;
   final String phone;
+  final String level;
 
   UserProfile({
     required this.name,
     required this.excursionsDone,
     required this.telegramAlias,
-    required this.phone
+    required this.phone,
+    required this.level
   });
 
   factory UserProfile.fromFirestore(Map<String, dynamic> data) {
     return UserProfile(
-      name: data['name']?.toString() ?? 'Имя не указано',
-      excursionsDone: (data['excursionsDone'] as int?) ?? 0,
-      telegramAlias: data['telegramAlias']?.toString() ?? 'Telegram не указан',
-      phone: data['phone']?.toString() ?? 'Номер телефона не указан'
+      name: data['name'] ?? 'Имя не указано',
+      excursionsDone: (data['toursCount'] as int?) ?? 0,
+      telegramAlias: data['telegramAlias'] ?? 'Telegram не указан',
+      phone: data['phone']?.toString() ?? 'Номер телефона не указан',
+      level: data['level'] ?? 'Уровень не указан'
     );
   }
 }

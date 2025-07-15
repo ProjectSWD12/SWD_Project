@@ -2,7 +2,7 @@
 
 ## Static View
 
-![Component diagram](./StaticView.svg)
+![Component diagram](./StaticView.png)
 
 Shows the system’s structure at rest. List the main modules, services, or libraries, the APIs they expose, and the compile-time or package-time dependencies between them. A reviewer should be able to see which parts can be replaced independently and where tight coupling may cause ripple effects.
 

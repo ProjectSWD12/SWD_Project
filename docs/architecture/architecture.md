@@ -8,7 +8,7 @@ Shows the system’s structure at rest. List the main modules, services, or libr
 
 ## Dynamic View
 
-![Sequence diagram](./DynamicView.svg)
+![Sequence diagram](./DynamicView.png)
 
 Captures the behaviour of the system during a single, meaningful scenario (e.g., “user searches the gallery”). It traces the exact order of calls, data formats, error paths, and latency-critical hops across objects or services. This helps spot race conditions, redundant round-trips, and security gaps.
 

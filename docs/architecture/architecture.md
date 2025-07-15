@@ -18,6 +18,16 @@ Captures the behaviour of the system during a single, meaningful scenario (e.g.,
 
 Describes the runtime topology: which containers/services run on which nodes, what networks and ports connect them, and which cloud resources are involved (DB, queue, CDN, secrets store, etc.). Include redundancy (replicas, zones) and scaling units, so Ops can gauge fault tolerance and cost.
 
+## Module View
+
+![Module diagram](./modul_diagram.png)
+
+This diagram provides a high-level overview of the system architecture showing:
+- Core components and their responsibilities
+- Key data flows and dependencies
+- Deployment processes
+- Security relationships
+  
 ## Tech Stack
 - Flutter (Dart)
 - React

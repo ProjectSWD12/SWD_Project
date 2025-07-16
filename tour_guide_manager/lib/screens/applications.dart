@@ -192,49 +192,64 @@ class ApplicationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                model.type,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double maxCardWidth = 600;
+        return Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: constraints.maxWidth < maxCardWidth
+                  ? constraints.maxWidth
+                  : maxCardWidth,
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
               ),
-              Text(
-                '${formatDate(model.date)} ${model.time}, ${model.people} чел.',
-                style: const TextStyle(
-                  color: AppColors.grey,
-                  fontWeight: FontWeight.w500
-                ),
-              ),
-            ],
-          ),
-          const Expanded(child: SizedBox()),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.all(12),
-              backgroundColor: AppColors.darkBlue,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model.type,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '${formatDate(model.date)} ${model.time}, ${model.people} чел.',
+                        style: const TextStyle(
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Expanded(child: SizedBox()),
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.all(12),
+                      backgroundColor: AppColors.darkBlue,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: onAccept,
+                    child: const Text('Принять'),
+                  ),
+                ],
               ),
             ),
-            onPressed: onAccept,
-            child: const Text('Принять'),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

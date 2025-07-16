@@ -28,4 +28,11 @@ nav:
       - Reports:
           - AI-Usage Report: reports/ai-usage.md
           - Transition Report: reports/transition-report.md
-      - Assignments: Assignments
+      - Assignments: 
+          - Assignment 1: Assignments/Assignment1.pdf
+          - Assignment 2: Assignments/Assignment2.pdf
+          - Assignment 3: Assignments/Assignment3.pdf
+          - Assignment 4: Assignments/Assignment4.pdf
+          - Assignment 5: Assignments/Assignment5.pdf
+          - Assignment 6: Assignments/Assignment6.pdf
+          - Assignment 7: Assignments/Assignment7.pdf

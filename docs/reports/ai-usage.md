@@ -1,4 +1,5 @@
 ## Assignment 1
+![Assignment 1](Assignments/Assignment 1)
 - AI helped us in translation and in drawing up possible criteria
 for qualitative `analysis table`.
 

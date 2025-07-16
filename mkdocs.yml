@@ -25,9 +25,6 @@ nav:
       - Quality Assurance:
           - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
           - Automated Tests: quality-assurance/automated-tests.md
-      - Reports:
-          - AI-Usage Report: reports/ai-usage.md
-          - Transition Report: reports/transition-report.md
       - Assignments: 
           - Assignment 1: Assignments/Assignment1.pdf
           - Assignment 2: Assignments/Assignment2.pdf
@@ -36,3 +33,6 @@ nav:
           - Assignment 5: Assignments/Assignment5.pdf
           - Assignment 6: Assignments/Assignment6.pdf
           - Assignment 7: Assignments/Assignment7.pdf
+      - Reports:
+          - Transition Report: reports/transition-report.md
+          - AI-Usage Report: reports/ai-usage.md

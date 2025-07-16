@@ -1,5 +1,5 @@
 ## Assignment 1
-[Assignment 1](docs/Assignments/Assignment1.pdf)
+[Assignment 1](../Assignments/Assignment1.pdf)
 - AI helped us in translation and in drawing up possible criteria
 for qualitative `analysis table`.
 

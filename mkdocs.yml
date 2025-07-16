@@ -25,3 +25,6 @@ nav:
       - Quality Assurance:
           - User Acceptance Tests: quality-assurance/user-acceptance-tests.md
           - Automated Tests: quality-assurance/automated-tests.md
+      - Reports:
+          - AI-Usage Report: reports/ai-usage.md
+          - Transition Report: reports/transition-report.md

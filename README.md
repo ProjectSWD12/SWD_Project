@@ -89,12 +89,11 @@ External Systems:
 ## 🧾 Usage Guide
 
 1. Visit the [Guide Interaface](https://tourapp-66e02.web.app/)
-2. Register in with your credentials
-3. Use the calendar to browse excursions
+2. `Register` in with your credentials
+3. Use the `calendar` to browse excursions
 4. Visit the [Admin Interface](https://tourappmanager.ru/)
 5. Manage Excursions
-
-Even users who say _“I just copy and paste without reading”_ will find the interface intuitive and straightforward.
+6. `Accept` or `Reject` excursion in the Guide App
 
 ---
 

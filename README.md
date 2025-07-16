@@ -13,7 +13,7 @@ This repository contains the source code and documentation for our MVP releases.
 - [![For Guides](https://img.shields.io/badge/For-Guides-purple?logo=vercel)](https://tourapp-66e02.web.app/) 
 - [![For Admins](https://img.shields.io/badge/For-Admins-purple?logo=square)](https://tourappmanager.ru/) 
 
-[![Watch Demo Video](https://img.shields.io/badge/Watch-2 min demo-ff69b4?logo=youtube)](https://drive.google.com/file/d/18rDqOiGvP3XRaPwbLiQsEoyTZrLd0YKa/view?resourcekey)
+[![Watch Demo Video](https://img.shields.io/badge/Watch-2_min_demo-ff69b4?logo=youtube)](https://drive.google.com/file/d/18rDqOiGvP3XRaPwbLiQsEoyTZrLd0YKa/view)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 

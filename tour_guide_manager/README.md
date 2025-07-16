@@ -1,7 +1,7 @@
 
 # TourGuide Manager 🚀
 
-![Project Logo](../docs/architecture/logo.jpg)
+![Project Logo](../architecture/logo.jpg)
 
 A software development project for Innopolis University.  
 This repository contains the source code and documentation for our MVP releases.

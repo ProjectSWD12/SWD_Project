@@ -134,50 +134,47 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Уровень: ${user.level}',
-                        style: const TextStyle(
-                            fontSize: 17,
-                            color: AppColors.grey
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isWide = constraints.maxWidth > 600;
+                    final double cardWidth = isWide ? 560.0 : double.infinity;
+
+                    return Center(
+                      child: Container(
+                        width: cardWidth,
+                        margin: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Уровень: ${user.level}',
+                              style: const TextStyle(fontSize: 17, color: AppColors.grey),
+                            ),
+                            const Divider(),
+                            Text(
+                              'Экскурсий проведено: ${user.excursionsDone}',
+                              style: const TextStyle(fontSize: 17, color: AppColors.grey),
+                            ),
+                            const Divider(),
+                            Text(
+                              '${user.phone}',
+                              style: const TextStyle(fontSize: 17, color: AppColors.grey),
+                            ),
+                            const Divider(),
+                            Text(
+                              user.telegramAlias.contains('@') ? user.telegramAlias : '@${user.telegramAlias}',
+                              style: const TextStyle(fontSize: 17, color: AppColors.grey),
+                            ),
+                          ],
                         ),
                       ),
-                      const Divider(),
-                      Text(
-                        'Экскурсий проведено: ${user.excursionsDone}',
-                        style: const TextStyle(
-                          fontSize: 17,
-                          color: AppColors.grey
-                        ),
-                      ),
-                      const Divider(),
-                      Text(
-                        '${user.phone}',
-                        style: const TextStyle(
-                          fontSize: 17,
-                          color: AppColors.grey
-                        ),
-                      ),
-                      const Divider(),
-                      Text(
-                        user.telegramAlias.contains('@')
-                            ? '${user.telegramAlias}' : '@${user.telegramAlias}',
-                        style: const TextStyle(
-                            fontSize: 17,
-                            color: AppColors.grey
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 const Spacer(),
                 Padding(

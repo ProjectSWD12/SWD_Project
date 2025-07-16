@@ -86,108 +86,121 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ) :
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            const Text(
-              'Создайте аккаунт',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 22,
-                color: AppColors.darkGrey,
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 48,
-              child: TextField(
-                controller: emailController,
-                cursorColor: AppColors.darkBlue,
-                style: const TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Email',
-                  hintStyle: const TextStyle(color: AppColors.grey),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 48,
-              child: TextField(
-                controller: passwordController,
-                cursorColor: AppColors.darkBlue,
-                obscureText: true,
-                style: const TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  hintText: 'Пароль',
-                  hintStyle: const TextStyle(color: AppColors.grey),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 40,
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _signUp,
-                style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.darkBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    )
-                ),
-                child: const Text(
-                  'Регистрация',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Уже есть аккаунт?'),
-                  const SizedBox(width: 6),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        '/login'
-                      );
-                    },
-                    child: const Text(
-                      'Вход',
-                      style: TextStyle(
-                        color: AppColors.darkBlue,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 40),
+                      const Text(
+                        'Создайте аккаунт',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22,
+                          color: AppColors.darkGrey,
+                        ),
                       ),
-                    )
-                  )
-                ],
+                      const SizedBox(height: 16),
+
+                      // Email field
+                      SizedBox(
+                        height: 48,
+                        child: TextField(
+                          controller: emailController,
+                          cursorColor: AppColors.darkBlue,
+                          style: const TextStyle(fontSize: 17),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                            hintText: 'Email',
+                            hintStyle: const TextStyle(color: AppColors.grey),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Password field
+                      SizedBox(
+                        height: 48,
+                        child: TextField(
+                          controller: passwordController,
+                          cursorColor: AppColors.darkBlue,
+                          obscureText: true,
+                          style: const TextStyle(fontSize: 17),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                            hintText: 'Пароль',
+                            hintStyle: const TextStyle(color: AppColors.grey),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Button
+                      SizedBox(
+                        height: 40,
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: _signUp,
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.darkBlue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Регистрация',
+                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      // Login link
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Уже есть аккаунт?'),
+                          const SizedBox(width: 6),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/login');
+                            },
+                            child: const Text(
+                              'Вход',
+                              style: TextStyle(color: AppColors.darkBlue),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

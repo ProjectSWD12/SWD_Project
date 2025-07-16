@@ -81,8 +81,8 @@ External Systems:
 | Blacklist of Users (v2.0)                    | ✅ Implemented |
 | Blacklist of Guides (v2.0)                   | ✅ Implemented |
 | Application Window (v2.0)                   | ✅ Implemented |
-| Customer Feedback & Testing            | ⏳ In Progress |
-| Real Time Notifications (v3.0)        | ⬜ Planned |
+| Customer Feedback & Testing            | ✅ Implemented |
+| Real Time Notifications (v3.0)        | ⏳ In Progress |
 
 ---
 

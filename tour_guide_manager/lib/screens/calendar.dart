@@ -113,56 +113,73 @@ class _CalendarState extends State<Calendar> {
           SizedBox(
             height: 82,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 8,
-              ),
-              child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: 14,
-                itemBuilder: (context, index) {
-                  final DateTime date = DateTime.now().add(Duration(days: index));
-                  final String weekday = weekdays.elementAt(date.weekday - 1);
-                  final bool isSelected = date.year == _selectedDate.year &&
-                      date.month == _selectedDate.month &&
-                      date.day == _selectedDate.day;
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  const int totalDays = 14;
+                  const double spacing = 8;
+                  const double minBtnWidth = 46;
 
-                  return TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: isSelected ? AppColors.darkBlue : Colors.white,
-                      foregroundColor: isSelected ? Colors.white : AppColors.darkGrey,
-                      minimumSize: const Size(46, 66),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      _loadExcursions(date);
-                      setState(() {
-                        _selectedDate = date;
-                      });
+                  // сколько нужно ширины, чтобы все влезло без скролла
+                  final double neededWidth = totalDays * minBtnWidth + (totalDays - 1) * spacing;
+                  final bool showAll = constraints.maxWidth >= neededWidth;
+
+                  final double buttonWidth = showAll
+                      ? (constraints.maxWidth - spacing * (totalDays - 1)) / totalDays
+                      : minBtnWidth;
+
+                  return ListView.separated(
+                    physics: showAll ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: totalDays,
+                    itemBuilder: (context, index) {
+                      final date = DateTime.now().add(Duration(days: index));
+                      final weekday = weekdays[date.weekday - 1];
+                      final isSelected = date.year == _selectedDate.year &&
+                          date.month == _selectedDate.month &&
+                          date.day == _selectedDate.day;
+
+                      return SizedBox(
+                        width: buttonWidth,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: isSelected ? AppColors.darkBlue : Colors.white,
+                            foregroundColor: isSelected ? Colors.white : AppColors.darkGrey,
+                            minimumSize: const Size(60, 80),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          onPressed: () {
+                            _loadExcursions(date);
+                            setState(() {
+                              _selectedDate = date;
+                            });
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                date.day.toString(),
+                                style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                weekday,
+                                style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      );
                     },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          date.day.toString(),
-                          style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w500
-                          ),
-                        ),
-                        Text(
-                          weekday,
-                          style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500
-                          ),
-                        ),
-                      ],
-                    ),
+                    separatorBuilder: (_, __) => const SizedBox(width: spacing),
                   );
                 },
-                separatorBuilder: (context, index) => const SizedBox(width: 8),
               ),
             ),
           ),

@@ -145,8 +145,8 @@ class _CalendarState extends State<Calendar> {
                           style: TextButton.styleFrom(
                             backgroundColor: isSelected ? AppColors.darkBlue : Colors.white,
                             foregroundColor: isSelected ? Colors.white : AppColors.darkGrey,
-                            minimumSize: const Size(60, 80),
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            minimumSize: const Size(60, 90),
+                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -163,13 +163,13 @@ class _CalendarState extends State<Calendar> {
                               Text(
                                 date.day.toString(),
                                 style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600,
+                                  fontSize: 16, fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
                                 weekday,
                                 style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w500,
+                                  fontSize: 13, fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],

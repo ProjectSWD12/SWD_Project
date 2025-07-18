@@ -35,7 +35,7 @@
   *
   
 ## Link to the Video Call
-- ![Link](https://disk.yandex.ru/i/pMt8H6GaqqDztQ)
+- [Link](https://disk.yandex.ru/i/pMt8H6GaqqDztQ)
 
 ## Customer Feedback on README
 - [x] Is everything clear? What can be improved?

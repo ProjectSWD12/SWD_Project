@@ -32,7 +32,7 @@ class _ApplicationsState extends State<Applications> {
       final data = doc.data();
       final List<String> banList = List<String>.from(data['banList'] ?? []);
       if (banList.contains(userEmail)) {
-        parsedCustomers.add(doc.id);
+        parsedCustomers.add(data['name']);
       }
     }
 

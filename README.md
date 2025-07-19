@@ -24,6 +24,7 @@ This repository contains the source code and documentation for our MVP releases.
 - [Project Context](#-project-context)
 - [Feature Roadmap](#-feature-roadmap)
 - [Usage Guide](#-usage-guide)
+- [For Customer](#-for-customer)
 - [Installation & Deployment](#installation--deployment)
 - [docs](docs)
 - [CHANGELOG.md](CHANGELOG.md)
@@ -98,6 +99,12 @@ External Systems:
 
 ---
 
+## 👨‍💼 For Customer
+
+Our customer satisfy  with product, repo and README.md.
+
+---
+
 ## Installation & Deployment
 
 ### Prerequisites
@@ -109,6 +116,8 @@ External Systems:
 | Python | 3.12.4 |
 | Firebase CLI | 12+ |
 | Node.js (for scripts) | 18+ |
+
+
 
 ### Local setup
 

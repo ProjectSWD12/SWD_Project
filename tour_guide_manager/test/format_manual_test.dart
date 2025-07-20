@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tour_guide_manager/screens/calendar.dart';
+import 'package:tour_guide_manager/utils/utils.dart';
 
 void main() {
   test('Correctly formats date (manual)', () {

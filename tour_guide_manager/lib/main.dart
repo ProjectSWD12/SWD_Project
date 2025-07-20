@@ -6,13 +6,22 @@ import 'screens/home_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'firebase_options.dart';
 import 'colors.dart';
+import 'providers/guide_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => GuideProvider()),
+      ],
+      child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {

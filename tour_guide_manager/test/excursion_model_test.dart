@@ -4,17 +4,20 @@ import 'package:tour_guide_manager/screens/calendar.dart';
 void main() {
   test('ExcursionModel initializes correctly', () {
     final model = ExcursionModel(
-      type: 'Обзорная',
-      time: '10:00',
+      title: 'Обзорная',
+      startTime: '10:00',
       people: 25,
       route: 'Красная площадь',
       meetingPlace: 'У входа',
       lunch: 'да',
       masterClass: 'нет',
+      endTime: '12:00',
+      paymentStatus: 'Оплачено',
     );
 
-    expect(model.type, 'Обзорная');
-    expect(model.time, '10:00');
+    expect(model.title, 'Обзорная');
+    expect(model.startTime, '10:00');
+    expect(model.endTime, '12:00');
     expect(model.people, 25);
     expect(model.route, 'Красная площадь');
     expect(model.meetingPlace, 'У входа');

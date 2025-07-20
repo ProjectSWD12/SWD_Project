@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:tour_guide_manager/colors.dart';
+import 'package:tour_guide_manager/providers/guide_provider.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -107,6 +109,9 @@ class Profile extends StatelessWidget {
           final doc = snapshot.data!.docs.first;
           final userData = doc.data() as Map<String, dynamic>;
           final user = UserProfile.fromFirestore(userData);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<GuideProvider>(context, listen: false).setGuide(user);
+          });
 
           return Center(
             child: Column(

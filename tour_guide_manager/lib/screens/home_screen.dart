@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const Applications(),
     const Profile(),
   ];
-  int _currentIndex = 2;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.11,
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: Colors.grey.shade200)),
           color: Colors.white,

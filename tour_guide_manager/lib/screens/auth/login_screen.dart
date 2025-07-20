@@ -11,29 +11,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool isLoading = false;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _signIn() async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
     try {
-      final email = emailController.text.trim();
-      final password = passwordController.text.trim();
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
         showTopSnackBar(context, 'Введите email и пароль');
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
         return;
       }
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showTopSnackBar(context, 'Неизвестная ошибка: $e');
     } finally {
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     }
   }
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: isLoading ?
+      body: _isLoading ?
       const Center(
         child: CircularProgressIndicator(color: AppColors.darkBlue)
       ) :
@@ -179,125 +179,120 @@ class _LoginScreenState extends State<LoginScreen> {
             return Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 40),
-
-                      const Text(
-                        'Войдите в аккаунт',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 22,
-                          color: AppColors.darkGrey,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Email
-                      SizedBox(
-                        height: 48,
-                        child: TextField(
-                          controller: emailController,
-                          cursorColor: AppColors.darkBlue,
-                          style: const TextStyle(fontSize: 17),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                            hintText: 'Email',
-                            hintStyle: const TextStyle(color: AppColors.grey),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(),
+                    Column(
+                      children: [
+                        const Text(
+                          'Войдите в аккаунт',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22,
+                            color: AppColors.darkGrey,
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      // Password
-                      SizedBox(
-                        height: 48,
-                        child: TextField(
-                          controller: passwordController,
-                          cursorColor: AppColors.darkBlue,
-                          obscureText: true,
-                          style: const TextStyle(fontSize: 17),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                            hintText: 'Пароль',
-                            hintStyle: const TextStyle(color: AppColors.grey),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      // Button
-                      SizedBox(
-                        height: 40,
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: _signIn,
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.darkBlue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text(
-                            'Войти',
-                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Links
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Нет аккаунта?', style: TextStyle(color: AppColors.darkGrey)),
-                              const SizedBox(width: 6),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(context, '/register');
-                                },
-                                child: const Text('Регистрация', style: TextStyle(color: AppColors.darkBlue)),
+                        const SizedBox(height: 16),
+                        // Email
+                        SizedBox(
+                          height: 48,
+                          child: TextField(
+                            controller: _emailController,
+                            cursorColor: AppColors.darkBlue,
+                            style: const TextStyle(fontSize: 17),
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                              hintText: 'Email',
+                              hintStyle: const TextStyle(color: AppColors.grey),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 3),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            onPressed: () => showForgotPasswordDialog(context),
-                            child: const Text('Забыли пароль?', style: TextStyle(color: AppColors.darkBlue)),
                           ),
-                          const SizedBox(height: 40),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        const SizedBox(height: 10),
+                        // Password
+                        SizedBox(
+                          height: 48,
+                          child: TextField(
+                            controller: _passwordController,
+                            cursorColor: AppColors.darkBlue,
+                            obscureText: true,
+                            style: const TextStyle(fontSize: 17),
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                              hintText: 'Пароль',
+                              hintStyle: const TextStyle(color: AppColors.grey),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        // Button
+                        SizedBox(
+                          height: 40,
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: _signIn,
+                            style: FilledButton.styleFrom(
+                              backgroundColor: AppColors.darkBlue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: const Text(
+                              'Войти',
+                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Links
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Нет аккаунта?', style: TextStyle(color: AppColors.darkGrey)),
+                            const SizedBox(width: 6),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(context, '/register');
+                              },
+                              child: const Text('Регистрация', style: TextStyle(color: AppColors.darkBlue)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 3),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () => showForgotPasswordDialog(context),
+                          child: const Text('Забыли пароль?', style: TextStyle(color: AppColors.darkBlue)),
+                        ),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );

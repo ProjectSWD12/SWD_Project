@@ -27,7 +27,15 @@ class _ApplicationsState extends State<Applications> {
     super.initState();
     firestore = FirebaseFirestore.instance;
     userEmail = FirebaseAuth.instance.currentUser!.email!;
-    final level = Provider.of<GuideProvider>(context, listen: false).guide!.level;
+
+    final guide = Provider.of<GuideProvider>(context, listen: false).guide;
+
+    if (guide == null) {
+      combinedStream = const Stream.empty();
+      return;
+    }
+
+    final level = guide.level;
 
     combinedStream = Rx.combineLatest3<QuerySnapshot, QuerySnapshot, QuerySnapshot, CombinedData>(
       firestore.collection('companies').snapshots(),
@@ -244,27 +252,31 @@ class ApplicationCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        model.title,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
                         ),
-                      ),
-                      Text(
-                        '${model.date} ${model.time}, ${model.people} чел.',
-                        style: const TextStyle(
-                          color: AppColors.grey,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '${model.date} ${model.time}, ${model.people} чел.',
+                          style: const TextStyle(
+                            color: AppColors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const Expanded(child: SizedBox()),
                   FilledButton(
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.all(12),

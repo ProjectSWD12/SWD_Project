@@ -70,7 +70,6 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final calendarHeight = screenHeight * 0.09;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
@@ -84,141 +83,130 @@ class _CalendarState extends State<Calendar> {
         surfaceTintColor: Colors.transparent,
       ),
       backgroundColor: AppColors.background,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double maxContentWidth = 600;
-          final double availableWidth = constraints.maxWidth;
-          final double contentWidth = availableWidth > maxContentWidth
-              ? maxContentWidth
-              : availableWidth;
-          return Center(
-            child: SizedBox(
-              width: contentWidth,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: calendarHeight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
-                      ),
-                      child: ListView.separated(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 14,
-                        itemBuilder: (context, index) {
-                          final DateTime date = DateTime.now().add(
-                              Duration(days: index));
-                          final String weekday = weekdays.elementAt(
-                              date.weekday - 1);
-                          final bool isSelected = date.year ==
-                              _selectedDate.year &&
-                              date.month == _selectedDate.month &&
-                              date.day == _selectedDate.day;
-                          final buttonHeight = calendarHeight - 16;
-                          final buttonWidth = buttonHeight * 0.7;
-                          return TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: isSelected
-                                  ? AppColors.darkBlue
-                                  : Colors.white,
-                              foregroundColor: isSelected
-                                  ? Colors.white
-                                  : AppColors.darkGrey,
-                              minimumSize: Size(buttonWidth, buttonHeight),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 85,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  const int totalDays = 14;
+                  const double spacing = 8;
+                  const double minBtnWidth = 46;
+
+                  final double neededWidth = totalDays * minBtnWidth + (totalDays - 1) * spacing;
+                  final bool showAll = constraints.maxWidth >= neededWidth;
+
+                  final double buttonWidth = showAll
+                      ? (constraints.maxWidth - spacing * (totalDays - 1)) / totalDays
+                      : minBtnWidth;
+
+                  return ListView.separated(
+                    physics: showAll ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: totalDays,
+                    itemBuilder: (context, index) {
+                      final date = DateTime.now().add(Duration(days: index));
+                      final weekday = weekdays[date.weekday - 1];
+                      final isSelected = date.year == _selectedDate.year &&
+                          date.month == _selectedDate.month &&
+                          date.day == _selectedDate.day;
+
+                      return SizedBox(
+                        width: buttonWidth,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: isSelected ? AppColors.darkBlue : Colors.white,
+                            foregroundColor: isSelected ? Colors.white : AppColors.darkGrey,
+                            minimumSize: const Size(60, 80),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          onPressed: () {
+                            _loadExcursions(date);
+                            setState(() {
+                              _selectedDate = date;
+                            });
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                date.day.toString(),
+                                style: const TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                            onPressed: () {
-                              _loadExcursions(date);
-                              setState(() {
-                                _selectedDate = date;
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  date.day.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 17, fontWeight: FontWeight.w500
-                                  ),
+                              Text(
+                                weekday,
+                                style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500,
                                 ),
-                                Text(
-                                  weekday,
-                                  style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                        const SizedBox(width: 8),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                    child: Text(
-                      '${formatManual(_selectedDate.day,
-                          _selectedDate.month)}, ${fullWeekdays[_selectedDate
-                          .weekday - 1]}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.darkGrey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: _isLoading ?
-                    const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.darkBlue,
-                      ),
-                    ) : _excursions.isEmpty ?
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          _message == 'Ошибка загрузки'
-                              ? 'assets/error.svg' : 'assets/no_data.svg',
-                          height: screenHeight *
-                              (_message == 'Ошибка загрузки' ? 0.27 : 0.35),
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          _message,
-                          style: const TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ) :
-                    ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _excursions.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: ExcursionCard(model: _excursions[index]),
-                        );
-                      },
-                      separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
-                    ),
-                  ),
-                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(width: spacing),
+                  );
+                },
               ),
             ),
-          );
-        }
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+            child: Text(
+              '${formatManual(_selectedDate.day,
+                  _selectedDate.month)}, ${fullWeekdays[_selectedDate
+                  .weekday - 1]}',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: AppColors.darkGrey,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Expanded(
+            child: _isLoading ?
+            const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.darkBlue,
+              ),
+            ) : _excursions.isEmpty ?
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  _message == 'Ошибка загрузки'
+                      ? 'assets/error.svg' : 'assets/no_data.svg',
+                  height: screenHeight *
+                      (_message == 'Ошибка загрузки' ? 0.27 : 0.35),
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  _message,
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ) :
+            ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              itemCount: _excursions.length,
+              itemBuilder: (context, index) {
+                return ExcursionCard(model: _excursions[index]);
+              },
+              separatorBuilder: (context, index) =>
+              const SizedBox(height: 12),
+            ),
+          ),
+        ]
       ),
     );
   }
@@ -232,6 +220,7 @@ class ExcursionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -242,12 +231,16 @@ class ExcursionCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                model.title,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.darkGrey,
+              Expanded(
+                child: Text(
+                  model.title,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.darkGrey,
+                  ),
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
                 ),
               ),
               Text(

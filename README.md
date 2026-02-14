@@ -13,7 +13,9 @@ This repository contains the source code and documentation for our MVP releases.
 - [![For Guides](https://img.shields.io/badge/For-Guides-purple?logo=vercel)](https://tourapp-66e02.web.app/) 
 - [![For Admins](https://img.shields.io/badge/For-Admins-purple?logo=square)](https://tourappmanager.ru/) 
 
-[![Watch Demo Video](https://img.shields.io/badge/Watch-4_min_demo-ff69b4?logo=youtube)](https://drive.google.com/file/d/18rDqOiGvP3XRaPwbLiQsEoyTZrLd0YKa/view)
+[![Watch Demo Video Admin](https://img.shields.io/badge/Watch-4_min_demo-ff69b4?logo=youtube)](https://drive.google.com/file/d/18rDqOiGvP3XRaPwbLiQsEoyTZrLd0YKa/view)
+[![Watch Demo Video App](https://img.shields.io/badge/Watch-4_min_demo-ff69b4?logo=youtube)](https://drive.google.com/drive/folders/14RH4XH7q6wrjB85ifu_TxjoHw-b2ABmc?usp=sharing)
+
 
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -117,3 +119,4 @@ git clone https://github.com/ProjectSWD12/SWD_Project.git
 cd SWD_Project
 flutter pub get                 # install dependencies
 flutter run                     # launch on device or web
+
